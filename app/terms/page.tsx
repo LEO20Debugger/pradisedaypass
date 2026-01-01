@@ -1,6 +1,6 @@
 import Header from '@/components/Header'
-import TermsContent from '@/components/TermsContent'
 import Footer from '@/components/Footer'
+import TermsContent from '@/components/TermsContent'
 
 export default function TermsPage() {
     return (
