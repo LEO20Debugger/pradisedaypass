@@ -8,7 +8,7 @@ export default function AboutHero() {
                 <Image
                     alt="Luxury turquoise caribbean ocean view from a resort balcony"
                     className="w-full h-full object-cover object-center"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtcl7i9gT9UwPB1-Gga9Vlpbiyl_6gdUidg301u61VvBO_CVtNrOvvYwfRoTJv78tRwJQZT8oDbCFwVcW3PrRI_0lw0inXJziHuotuykzmSJqnIjTzlU27lVdcXM_qMR3jqyALi6dbrjl2-DkOUz62pbgnu2i8Y16qhPy5M6OjE-5LfjnzQ_-1VmnkDhwq0bZQmctAsr-2ubO_FSbvYLG4MNBM9sUGRNm7pf5qy7GojfWm0QIojDlMporVsd-NB1KJCvkPafSeAhxY"
+                    src="https://images.unsplash.com/photo-1529316275402-0462fcc4abd6?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     fill
                     priority
                 />

@@ -33,14 +33,14 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Simple Gradient Background */}
+            {/* Glass Background with Backdrop Blur */}
             <div
-                className="fixed inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/90 to-teal-700/90 backdrop-blur-sm"
+                className="fixed inset-0 bg-black/20 backdrop-blur-md"
                 onClick={onClose}
             ></div>
 
-            {/* Modal Container - Smaller and more mobile responsive */}
-            <div className="relative z-10 flex w-full max-w-[400px] sm:max-w-[440px] flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 dark:bg-[#1A2633] dark:ring-white/10 max-h-[90vh] overflow-y-auto">
+            {/* Modal Container - Glass Effect */}
+            <div className="relative z-10 flex w-full max-w-[400px] sm:max-w-[440px] flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white/90 backdrop-blur-xl shadow-2xl ring-1 ring-white/20 dark:bg-gray-900/80 dark:ring-white/10 max-h-[90vh] overflow-y-auto border border-white/30 dark:border-gray-700/50">
                 {/* Close Button */}
                 <button
                     aria-label="Close modal"
@@ -140,7 +140,7 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
                             <div className="w-full border-t border-[#dbe0e6] dark:border-gray-700"></div>
                         </div>
                         <div className="relative flex justify-center">
-                            <span className="bg-white px-3 text-sm font-medium text-[#617589] dark:bg-[#1A2633] dark:text-gray-400">
+                            <span className="bg-white/80 backdrop-blur-sm px-3 text-sm font-medium text-[#617589] dark:bg-gray-900/80 dark:text-gray-400">
                                 Or continue with
                             </span>
                         </div>
@@ -148,7 +148,7 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
 
                     {/* Social Login */}
                     <button
-                        className="mt-4 flex w-full items-center justify-center gap-3 rounded-lg border border-[#dbe0e6] bg-white px-4 py-2.5 sm:py-3 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-[#111A22] dark:hover:bg-[#1b2530]"
+                        className="mt-4 flex w-full items-center justify-center gap-3 rounded-lg border border-white/30 bg-white/50 backdrop-blur-sm px-4 py-2.5 sm:py-3 transition-colors hover:bg-white/70 dark:border-gray-700/50 dark:bg-gray-800/50 dark:hover:bg-gray-800/70"
                         type="button"
                     >
                         <svg aria-hidden="true" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24">

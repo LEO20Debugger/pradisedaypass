@@ -55,7 +55,7 @@ export default function ContactContent() {
                                     arrow_forward
                                 </span>
                             </div>
-                            <div>
+                            <div className="min-w-0 flex-1">
                                 <h3 className="text-base font-bold leading-tight">WhatsApp Concierge</h3>
                                 <p className="text-sm text-gray-500 mt-1">Instant response (9am - 6pm EST)</p>
                             </div>
@@ -71,9 +71,9 @@ export default function ContactContent() {
                                     arrow_forward
                                 </span>
                             </div>
-                            <div>
+                            <div className="min-w-0 flex-1">
                                 <h3 className="text-base font-bold leading-tight">Email Support</h3>
-                                <p className="text-sm text-gray-500 mt-1">concierge@resortpass.com</p>
+                                <p className="text-sm text-gray-500 mt-1 break-all">concierge@resortpass.com</p>
                             </div>
                         </div>
                     </div>
