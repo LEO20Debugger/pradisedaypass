@@ -14,10 +14,10 @@ export default function AdminDashboard() {
     ]
 
     const recentBookings = [
-        { id: '1001', guest: 'John Smith', resort: 'Grace Bay Club', date: '2025-01-05', status: 'Confirmed', amount: '$220' },
+        { id: '1001', guest: 'John Smith', resort: 'The Shore Club', date: '2025-01-05', status: 'Confirmed', amount: '$150' },
         { id: '1002', guest: 'Sarah Johnson', resort: 'The Shore Club', date: '2025-01-06', status: 'Pending', amount: '$150' },
         { id: '1003', guest: 'Mike Wilson', resort: 'Wymara Resort', date: '2025-01-07', status: 'Confirmed', amount: '$185' },
-        { id: '1004', guest: 'Emma Davis', resort: 'Grace Bay Club', date: '2025-01-08', status: 'Cancelled', amount: '$220' }
+        { id: '1004', guest: 'Emma Davis', resort: 'Wymara Resort', date: '2025-01-08', status: 'Cancelled', amount: '$185' }
     ]
 
     return (

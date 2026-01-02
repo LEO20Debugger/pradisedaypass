@@ -12,9 +12,9 @@ export default function Home() {
             <Header />
             <main>
                 <HeroSection />
-                <HowItWorksSection />
                 <ResortsSection />
                 <LocationsSection />
+                <HowItWorksSection />
                 <CTASection />
             </main>
             <Footer />

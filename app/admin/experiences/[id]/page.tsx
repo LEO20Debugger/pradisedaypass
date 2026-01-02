@@ -206,7 +206,7 @@ export default function EditExperience() {
                                                 >
                                                     <option>The Palms Turks & Caicos</option>
                                                     <option>Wymara Resort & Villas</option>
-                                                    <option>Amanyara</option>
+
                                                     <option>Seven Stars Resort</option>
                                                 </select>
                                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
@@ -412,8 +412,8 @@ export default function EditExperience() {
                                                     key={index}
                                                     onClick={() => toggleDay(index)}
                                                     className={`size-8 rounded-full text-xs font-bold flex items-center justify-center transition-colors ${availableDays[index]
-                                                            ? 'bg-luxury-gold text-white'
-                                                            : 'bg-gray-200 dark:bg-gray-700 text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-600'
+                                                        ? 'bg-luxury-gold text-white'
+                                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-600'
                                                         }`}
                                                 >
                                                     {day}

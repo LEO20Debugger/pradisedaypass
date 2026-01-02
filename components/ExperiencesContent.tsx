@@ -9,7 +9,9 @@ export default function ExperiencesContent() {
         inclusions: ['Spa Access']
     })
 
-    const experiences = [
+    const [showAll, setShowAll] = useState(false)
+
+    const allExperiences = [
         {
             id: 1,
             name: "The Palms Turks & Caicos",
@@ -38,17 +40,45 @@ export default function ExperiencesContent() {
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJrT11p0gc86-RSLkOK04C7dGa4nhd0ZP5gFggOycspWlrON4kuvEJabnZj__HhqY7gdRT-Nx3TtzBlvbVP5BPUKaZsRZeLQhnU8vzQZcblVR3zgkcfIDRLAY2gsGjurydHWKk-Qendn5Zz1IGM4ZApR8dQ0c-n1mVu4UapFB_p14o__F87CYqLVXKOYD3jB9QVlr6UXE1t81_ED436lizDZ-yvPXO1dpH-3BvjENac5fsBsbmLc7xOrip_xy0N7pdXbqD0uvtVYff",
             tags: ["All-Inclusive", "Water Sports"]
         },
+
         {
-            id: 4,
-            name: "Amanyara",
-            location: "Northwest Point",
-            price: 550,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCwGDmUFlxeWPMpO1Pd7WmnCb7hVz7F0BJ8-2CaUx164Gd91x1cYMDtdEPEkh_l31rexkeyKNmtFcmLjEeatRdA047rXRaj-eBxP4uX4-ZwUyiB1qgZSQ7fSGEjIx9VPziiuYQHbViWjwZgkK7qwBC8tmjexrQYAr5MOTLJR24sr2BLqetsFhyVXIMna0WLbpIZ_GuWbKBlc4mZPkYbLQ-hYUC4YnBQBEPkCpOXESpbcnhKhwnVtTBAj9DJGbJ3YJK9Y0nZSDJWejj_",
-            tags: ["Wellness", "Private Villa"],
-            badge: "Luxury Pick",
-            badgeStyle: "bg-white/90 text-primary"
+            id: 5,
+            name: "The Shore Club",
+            location: "Long Bay Beach, Providenciales",
+            price: 150,
+            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAPhn2TmOPFNq6ceXNRXtwsfn56TeW2CwMACrNbtEW2Q409M_6ckRefgk0rrLrEz6SU13wePNYYWLQlEafvJh3GHZmabO03eFSDqO6KY7f3O9yLg4zsYNJK7Hty2V_H15X_T4nufb2hTiHXdaXDIVBN1eUUqsXQcAPKPGVdKpl3e9tPipJwpzOVzl--jmAq_0DTxZ5Pn-CW-JVSjFs3MiprvUBCXSFdkYq_O1V-f5pgKtTz2Z45RIxaqBpz1Rvs6HF1mbUir-59Lew6",
+            tags: ["Pool Access", "Towel Service"]
+        },
+
+        {
+            id: 7,
+            name: "The Ritz-Carlton",
+            location: "Grace Bay, Providenciales",
+            price: 280,
+            image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            tags: ["Luxury Spa", "Fine Dining"]
+        },
+        {
+            id: 8,
+            name: "Beaches Resort",
+            location: "Lower Bight, Providenciales",
+            price: 195,
+            image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            tags: ["Water Park", "Kids Club"]
+        },
+        {
+            id: 9,
+            name: "Conch Bar Beach Resort",
+            location: "Conch Bar, Middle Caicos",
+            price: 125,
+            image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            tags: ["Eco-Tours", "Fishing"]
         }
     ]
+
+    // Show first 6 experiences initially, all on mobile or when showAll is true
+    const experiences = showAll ? allExperiences : allExperiences.slice(0, 6)
+    const totalExperiences = allExperiences.length
 
     const locations = ["Grace Bay", "Long Bay", "Turtle Cove", "Northwest Point"]
     const inclusions = ["Spa Access", "Dining Credit", "Adults Only", "Private Cabana", "Water Sports", "Beach Service"]
@@ -139,7 +169,9 @@ export default function ExperiencesContent() {
                 <main className="flex-1 flex flex-col gap-6">
                     {/* Sorting & Count Bar */}
                     <div className="flex items-center justify-between">
-                        <p className="text-[#617589] dark:text-gray-400 text-sm font-medium">Showing 4 exclusive offers</p>
+                        <p className="text-[#617589] dark:text-gray-400 text-sm font-medium">
+                            Showing {experiences.length} of {totalExperiences} exclusive offers
+                        </p>
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-[#111418] dark:text-gray-300 hidden sm:block">Sort by:</span>
                             <div className="relative group">
@@ -151,8 +183,14 @@ export default function ExperiencesContent() {
                         </div>
                     </div>
 
-                    {/* Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                    {/* Mobile Scroll Hint */}
+                    <div className="sm:hidden flex items-center justify-center gap-2 text-[#617589] dark:text-gray-400 text-xs mb-2">
+                        <span className="material-symbols-outlined text-sm">swipe</span>
+                        <span>Swipe to see more experiences</span>
+                    </div>
+
+                    {/* Grid - Desktop */}
+                    <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                         {experiences.map((experience) => (
                             <div key={experience.id} className="group flex flex-col rounded-xl bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                                 <div className="relative h-48 sm:h-56 overflow-hidden">
@@ -213,13 +251,82 @@ export default function ExperiencesContent() {
                         ))}
                     </div>
 
-                    {/* Pagination / Load More */}
-                    <div className="flex items-center justify-center mt-8 mb-4">
-                        <button className="flex items-center gap-2 rounded-full border border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-[#1a2632] px-6 py-3 text-sm font-bold text-[#111418] dark:text-white hover:bg-[#f0f2f4] dark:hover:bg-gray-800 transition-colors">
-                            Load More Experiences
-                            <span className="material-symbols-outlined text-sm">arrow_downward</span>
-                        </button>
+                    {/* Horizontal Scroll - Mobile */}
+                    <div className="sm:hidden overflow-x-auto scrollbar-hide">
+                        <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
+                            {allExperiences.map((experience) => (
+                                <div key={experience.id} className="group flex flex-col rounded-xl bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 w-[280px] flex-shrink-0">
+                                    <div className="relative h-44 overflow-hidden">
+                                        {experience.badge && (
+                                            <div className="absolute top-2 left-2 z-10">
+                                                <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badgeStyle}`}>
+                                                    {experience.badge}
+                                                </span>
+                                            </div>
+                                        )}
+                                        <img
+                                            alt={experience.name}
+                                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            src={experience.image}
+                                        />
+                                        <button className="absolute bottom-2 right-2 size-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
+                                            <span className="material-symbols-outlined text-base">favorite</span>
+                                        </button>
+                                    </div>
+                                    <div className="flex flex-col flex-1 p-4 gap-3">
+                                        <div className="flex flex-col gap-1">
+                                            <div className="flex items-start justify-between gap-2">
+                                                <a
+                                                    href={`/experiences/${experience.id}`}
+                                                    className="text-[#111418] dark:text-white text-base font-bold leading-tight group-hover:text-primary transition-colors hover:text-primary"
+                                                >
+                                                    {experience.name}
+                                                </a>
+                                            </div>
+                                            <div className="flex items-center gap-1 text-[#617589] dark:text-gray-400">
+                                                <span className="material-symbols-outlined text-sm">location_on</span>
+                                                <p className="text-xs font-medium">{experience.location}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {experience.tags.slice(0, 2).map((tag) => (
+                                                <span key={tag} className="bg-[#f0f2f4] dark:bg-gray-800 text-[#617589] dark:text-gray-300 text-[10px] font-bold px-2 py-1 rounded">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <div className="mt-auto pt-2 border-t border-[#f0f2f4] dark:border-gray-700 flex flex-col gap-2">
+                                            <div className="flex flex-col">
+                                                <p className="text-[#617589] dark:text-gray-400 text-xs">Starting from</p>
+                                                <p className="text-[#111418] dark:text-white text-lg font-bold">
+                                                    ${experience.price} <span className="text-xs font-normal text-[#617589]">/ guest</span>
+                                                </p>
+                                            </div>
+                                            <a
+                                                href={`/experiences/${experience.id}`}
+                                                className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-blue-600 transition-colors text-center"
+                                            >
+                                                Book Now
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
+
+                    {/* Pagination / Load More - Desktop Only */}
+                    {!showAll && experiences.length < totalExperiences && (
+                        <div className="hidden sm:flex items-center justify-center mt-8 mb-4">
+                            <button
+                                onClick={() => setShowAll(true)}
+                                className="flex items-center gap-2 rounded-full border border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-[#1a2632] px-6 py-3 text-sm font-bold text-[#111418] dark:text-white hover:bg-[#f0f2f4] dark:hover:bg-gray-800 transition-colors"
+                            >
+                                Load More Experiences ({totalExperiences - experiences.length} remaining)
+                                <span className="material-symbols-outlined text-sm">arrow_downward</span>
+                            </button>
+                        </div>
+                    )}
                 </main>
             </div>
         </div>

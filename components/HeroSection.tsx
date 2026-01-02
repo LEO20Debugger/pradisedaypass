@@ -105,7 +105,7 @@ export default function HeroSection() {
                             </div>
                         </div>
 
-                        <div className="flex-[0.5] flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors">
+                        <div className="flex-[0.8] flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors min-w-[120px]">
                             <span className="material-symbols-outlined text-gray-400 mr-3">group</span>
                             <div className="flex flex-col items-start w-full">
                                 <label className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Guests</label>
