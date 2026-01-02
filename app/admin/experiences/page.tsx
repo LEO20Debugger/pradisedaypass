@@ -10,9 +10,9 @@ export default function AdminExperiences() {
         {
             id: 1,
             name: 'Full Day Cabana Access',
-            resort: 'Amanyara Resort',
+            resort: 'The Shore Club',
             location: 'Providenciales',
-            price: '$350.00',
+            price: '$150.00',
             guests: 4,
             status: 'Active',
             updated: '2 hours ago',
