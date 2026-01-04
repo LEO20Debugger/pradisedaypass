@@ -31,7 +31,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginM
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4 overflow-y-auto pt-12">
             {/* Glass Background with Backdrop Blur */}
             <div
                 className="fixed inset-0 bg-black/20 backdrop-blur-md"
@@ -39,7 +39,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginM
             ></div>
 
             {/* Modal Container - Glass Effect */}
-            <div className="relative z-10 flex w-full max-w-[400px] sm:max-w-[440px] flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white/90 backdrop-blur-xl shadow-2xl ring-1 ring-white/20 dark:bg-gray-900/80 dark:ring-white/10 max-h-[90vh] overflow-y-auto border border-white/30 dark:border-gray-700/50">
+            <div className="relative z-10 flex w-full max-w-[400px] sm:max-w-[440px] flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white/90 backdrop-blur-xl shadow-2xl ring-1 ring-white/20 dark:bg-gray-900/80 dark:ring-white/10 my-8 border border-white/30 dark:border-gray-700/50 mx-auto">
                 {/* Close Button */}
                 <button
                     aria-label="Close modal"
@@ -50,7 +50,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignUp }: LoginM
                 </button>
 
                 {/* Modal Content */}
-                <div className="flex flex-col p-5 sm:p-6 md:p-8">
+                <div className="flex flex-col p-5 sm:p-6 md:p-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
                     {/* Heading Section */}
                     <div className="mb-6 flex flex-col gap-2 text-center">
                         <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[#111418] dark:text-white">

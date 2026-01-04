@@ -80,15 +80,15 @@ export default function AboutContent() {
                             <div className="flex items-center gap-3">
                                 <div className="h-10 w-10 rounded-full overflow-hidden">
                                     <Image
-                                        alt="Founder headshot smiling professional"
+                                        alt="CEO headshot smiling professional"
                                         className="w-full h-full object-cover"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWIuV_V42l34G2f0LlHdtbkHrG_ms_VH6hQbmq49rwOAqmbPT6Asr4goivIMopvBxcKELM_F4QizIm-27hvcENbDzT3dnukCnJMrU-PtNDUvCZanJYbV_MmOR3IM3IRjZcmx3Yh9pZfXoj80OSwAeFEn-Bsmc7Lr2auqv7007ktelQqkrcHIcV5Ilw_hHQxZuvwBaDwctRqHKcpUXRvpzKmw31M-ze-jJNp3aVLgx1MXuJUFPA2EpqpXobSEo9RL7z53f6dQUKhDYI"
+                                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=761&q=80"
                                         width={40}
                                         height={40}
                                     />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-[#111418] dark:text-white">James Sterling</p>
+                                    <p className="text-sm font-bold text-[#111418] dark:text-white">Denisha Moore</p>
                                     <p className="text-xs text-primary">Founder & CEO</p>
                                 </div>
                             </div>
