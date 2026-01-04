@@ -63,12 +63,12 @@ export default function Header() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2 sm:gap-3">
+                            <a href="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
                                 <div className="text-luxury-gold">
                                     <span className="material-symbols-outlined text-2xl sm:text-3xl">deck</span>
                                 </div>
                                 <h2 className="text-lg sm:text-xl font-bold tracking-tight">Paradise DayPass</h2>
-                            </div>
+                            </a>
                         </div>
 
                         <nav className="hidden md:flex items-center gap-8">
