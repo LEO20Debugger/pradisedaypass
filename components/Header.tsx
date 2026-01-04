@@ -11,7 +11,7 @@ export default function Header() {
 
     return (
         <>
-            <header className="sticky top-0 z-50 w-full glass-panel border-b border-luxury-sand/50">
+            <header className="sticky top-0 z-[10000] w-full glass-panel border-b border-luxury-sand/50">
                 <div className="layout-container flex justify-center">
                     <div className="w-full max-w-[1280px] px-4 py-3 sm:py-4 flex items-center justify-between">
                         <div className="flex items-center gap-3 sm:gap-4 text-[#111418] dark:text-white">

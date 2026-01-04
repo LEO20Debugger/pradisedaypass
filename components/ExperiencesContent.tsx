@@ -1,15 +1,52 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 
-export default function ExperiencesContent() {
+interface ExperiencesContentProps {
+    searchQuery?: string
+    onSearchChange?: (query: string) => void
+}
+
+export default function ExperiencesContent({ searchQuery: propSearchQuery, onSearchChange }: ExperiencesContentProps) {
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const [searchQuery, setSearchQuery] = useState('')
     const [selectedFilters, setSelectedFilters] = useState({
-        locations: ['Grace Bay'],
-        priceRange: [100, 500],
-        inclusions: ['Spa Access']
+        locations: [] as string[],
+        maxPrice: 500 as number,
+        inclusions: [] as string[]
     })
 
     const [showAll, setShowAll] = useState(false)
+
+    // Handle URL search parameters and prop changes
+    useEffect(() => {
+        const destination = searchParams.get('destination')
+        const date = searchParams.get('date')
+        const guests = searchParams.get('guests')
+
+        if (destination) {
+            setSearchQuery(destination)
+            // Notify parent component about the search query from URL
+            if (onSearchChange) {
+                onSearchChange(destination)
+            }
+        } else {
+            // Clear search query when no destination parameter
+            setSearchQuery('')
+            if (onSearchChange) {
+                onSearchChange('')
+            }
+        }
+    }, [searchParams, onSearchChange])
+
+    // Handle search from hero component
+    useEffect(() => {
+        if (propSearchQuery !== undefined && propSearchQuery !== searchQuery) {
+            setSearchQuery(propSearchQuery)
+        }
+    }, [propSearchQuery, searchQuery])
 
     const allExperiences = [
         {
@@ -40,7 +77,6 @@ export default function ExperiencesContent() {
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJrT11p0gc86-RSLkOK04C7dGa4nhd0ZP5gFggOycspWlrON4kuvEJabnZj__HhqY7gdRT-Nx3TtzBlvbVP5BPUKaZsRZeLQhnU8vzQZcblVR3zgkcfIDRLAY2gsGjurydHWKk-Qendn5Zz1IGM4ZApR8dQ0c-n1mVu4UapFB_p14o__F87CYqLVXKOYD3jB9QVlr6UXE1t81_ED436lizDZ-yvPXO1dpH-3BvjENac5fsBsbmLc7xOrip_xy0N7pdXbqD0uvtVYff",
             tags: ["All-Inclusive", "Water Sports"]
         },
-
         {
             id: 5,
             name: "The Shore Club",
@@ -49,7 +85,6 @@ export default function ExperiencesContent() {
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAPhn2TmOPFNq6ceXNRXtwsfn56TeW2CwMACrNbtEW2Q409M_6ckRefgk0rrLrEz6SU13wePNYYWLQlEafvJh3GHZmabO03eFSDqO6KY7f3O9yLg4zsYNJK7Hty2V_H15X_T4nufb2hTiHXdaXDIVBN1eUUqsXQcAPKPGVdKpl3e9tPipJwpzOVzl--jmAq_0DTxZ5Pn-CW-JVSjFs3MiprvUBCXSFdkYq_O1V-f5pgKtTz2Z45RIxaqBpz1Rvs6HF1mbUir-59Lew6",
             tags: ["Pool Access", "Towel Service"]
         },
-
         {
             id: 7,
             name: "The Ritz-Carlton",
@@ -76,12 +111,104 @@ export default function ExperiencesContent() {
         }
     ]
 
-    // Show first 6 experiences initially, all on mobile or when showAll is true
-    const experiences = showAll ? allExperiences : allExperiences.slice(0, 6)
-    const totalExperiences = allExperiences.length
+    // Filter experiences based on search query AND selected filters
+    const filteredExperiences = allExperiences.filter(experience => {
+        // Search query filter
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase()
+            const matchesSearch = (
+                experience.name.toLowerCase().includes(query) ||
+                experience.location.toLowerCase().includes(query) ||
+                experience.tags.some(tag => tag.toLowerCase().includes(query))
+            )
+            if (!matchesSearch) return false
+        }
 
-    const locations = ["Grace Bay", "Long Bay", "Turtle Cove", "Northwest Point"]
-    const inclusions = ["Spa Access", "Dining Credit", "Adults Only", "Private Cabana", "Water Sports", "Beach Service"]
+        // Location filter
+        if (selectedFilters.locations.length > 0) {
+            const matchesLocation = selectedFilters.locations.some(location =>
+                experience.location.toLowerCase().includes(location.toLowerCase())
+            )
+            if (!matchesLocation) return false
+        }
+
+        // Price filter
+        if (experience.price > selectedFilters.maxPrice) {
+            return false
+        }
+
+        // Inclusions filter
+        if (selectedFilters.inclusions.length > 0) {
+            const matchesInclusions = selectedFilters.inclusions.some(inclusion =>
+                experience.tags.some(tag => tag.toLowerCase().includes(inclusion.toLowerCase()))
+            )
+            if (!matchesInclusions) return false
+        }
+
+        return true
+    })
+
+    // Show first 6 experiences initially, all on mobile or when showAll is true
+    const experiences = showAll ? filteredExperiences : filteredExperiences.slice(0, 6)
+    const totalExperiences = filteredExperiences.length
+
+    const clearSearch = () => {
+        setSearchQuery('')
+        if (onSearchChange) {
+            onSearchChange('')
+        }
+        // Update URL to remove search parameters
+        router.replace('/experiences')
+    }
+
+    // Dynamically extract unique locations and inclusions from experience data
+    const locations = [
+        "Grace Bay",
+        "Long Bay Beach",
+        "Lower Bight",
+        "Conch Bar"
+    ]
+
+    // Get all unique tags from experiences, excluding specific ones
+    const excludedTags = ["All-Inclusive", "Cabana", "Dining Credit", "Eco-Tours", "Fine Dining", "Fishing", "Kids Club"]
+    const inclusions = Array.from(new Set(allExperiences.flatMap(exp => exp.tags)))
+        .filter(tag => !excludedTags.includes(tag))
+        .sort()
+
+    // Handler functions for interactive filters
+    const handleLocationChange = (location: string, checked: boolean) => {
+        setSelectedFilters(prev => ({
+            ...prev,
+            locations: checked
+                ? [...prev.locations, location]
+                : prev.locations.filter(l => l !== location)
+        }))
+    }
+
+    const handleMaxPriceChange = (newMaxPrice: number) => {
+        setSelectedFilters(prev => ({
+            ...prev,
+            maxPrice: newMaxPrice
+        }))
+    }
+
+    const handleInclusionChange = (inclusion: string) => {
+        setSelectedFilters(prev => ({
+            ...prev,
+            inclusions: prev.inclusions.includes(inclusion)
+                ? prev.inclusions.filter(i => i !== inclusion)
+                : [...prev.inclusions, inclusion]
+        }))
+    }
+
+    const resetAllFilters = () => {
+        setSelectedFilters({
+            locations: [],
+            maxPrice: 500,
+            inclusions: []
+        })
+        setSearchQuery('')
+    }
 
     return (
         <div className="flex-1 w-full max-w-[1280px] mx-auto px-4 py-8 lg:px-8 lg:py-12">
@@ -91,8 +218,31 @@ export default function ExperiencesContent() {
                     {/* Filter Header mobile toggle */}
                     <div className="flex items-center justify-between lg:hidden mb-2">
                         <h2 className="text-lg font-bold">Filters</h2>
-                        <button className="text-primary font-medium text-sm">Reset All</button>
+                        <button
+                            className="text-primary font-medium text-sm"
+                            onClick={resetAllFilters}
+                        >
+                            Reset All
+                        </button>
                     </div>
+
+                    {/* Search Results Info */}
+                    {searchQuery && (
+                        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                            <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                                Searching for: "{searchQuery}"
+                            </p>
+                            <p className="text-xs text-blue-600 dark:text-blue-300 mt-1">
+                                {totalExperiences} result{totalExperiences !== 1 ? 's' : ''} found
+                            </p>
+                            <button
+                                onClick={clearSearch}
+                                className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 mt-2 underline"
+                            >
+                                Clear search
+                            </button>
+                        </div>
+                    )}
 
                     {/* Location Filter */}
                     <div className="flex flex-col gap-3">
@@ -105,7 +255,8 @@ export default function ExperiencesContent() {
                                     <input
                                         type="checkbox"
                                         className="size-5 rounded border-[#dbe0e6] text-primary focus:ring-primary/20 dark:bg-gray-800 dark:border-gray-700"
-                                        defaultChecked={location === "Grace Bay"}
+                                        checked={selectedFilters.locations.includes(location)}
+                                        onChange={(e) => handleLocationChange(location, e.target.checked)}
                                     />
                                     <span className="text-[#111418] dark:text-gray-300 text-sm font-normal group-hover:text-primary transition-colors">
                                         {location}
@@ -117,29 +268,24 @@ export default function ExperiencesContent() {
 
                     <hr className="border-[#f0f2f4] dark:border-gray-800" />
 
-                    {/* Price Range Filter */}
+                    {/* Max Price Filter */}
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-[#111418] dark:text-white text-base font-bold leading-tight">Price Range</h3>
+                            <h3 className="text-[#111418] dark:text-white text-base font-bold leading-tight">Max Price</h3>
                         </div>
-                        {/* Custom Slider Component */}
-                        <div className="flex h-[38px] w-full pt-1.5 px-2">
-                            <div className="relative flex h-1 w-full items-center rounded-sm bg-[#dbe0e6] dark:bg-gray-700">
-                                {/* Track */}
-                                <div className="absolute left-[10%] right-[30%] h-full rounded-sm bg-primary"></div>
-                                {/* Left Thumb */}
-                                <div className="absolute left-[10%] -translate-x-1/2 flex flex-col items-center gap-1 cursor-pointer hover:scale-110 transition-transform z-10">
-                                    <div className="size-4 rounded-full bg-white border-2 border-primary shadow-sm"></div>
-                                    <p className="absolute top-6 text-[#111418] dark:text-gray-300 text-xs font-semibold w-12 text-center whitespace-nowrap">$100</p>
-                                </div>
-                                {/* Right Thumb */}
-                                <div className="absolute right-[30%] translate-x-1/2 flex flex-col items-center gap-1 cursor-pointer hover:scale-110 transition-transform z-10">
-                                    <div className="size-4 rounded-full bg-white border-2 border-primary shadow-sm"></div>
-                                    <p className="absolute top-6 text-[#111418] dark:text-gray-300 text-xs font-semibold w-12 text-center whitespace-nowrap">$500</p>
-                                </div>
+                        <div className="flex flex-col gap-3">
+                            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                                <span>Up to ${selectedFilters.maxPrice}</span>
                             </div>
+                            <input
+                                type="range"
+                                min="100"
+                                max="600"
+                                value={selectedFilters.maxPrice}
+                                onChange={(e) => handleMaxPriceChange(parseInt(e.target.value))}
+                                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 slider-thumb"
+                            />
                         </div>
-                        <div className="h-4"></div> {/* Spacer for labels */}
                     </div>
 
                     <hr className="border-[#f0f2f4] dark:border-gray-800" />
@@ -151,12 +297,13 @@ export default function ExperiencesContent() {
                             {inclusions.map((inclusion) => (
                                 <button
                                     key={inclusion}
-                                    className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg border pl-3 pr-3 transition-colors ${inclusion === "Spa Access"
-                                        ? "bg-primary/10 text-primary border-primary/20 hover:bg-primary hover:text-white"
+                                    onClick={() => handleInclusionChange(inclusion)}
+                                    className={`flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg border pl-3 pr-3 transition-colors ${selectedFilters.inclusions.includes(inclusion)
+                                        ? "bg-primary text-white border-primary"
                                         : "bg-[#f0f2f4] dark:bg-gray-800 text-[#111418] dark:text-gray-300 border-transparent hover:bg-gray-200 dark:hover:bg-gray-700"
                                         }`}
                                 >
-                                    <span className={`text-xs ${inclusion === "Spa Access" ? "font-bold" : "font-medium"} leading-normal`}>
+                                    <span className={`text-xs ${selectedFilters.inclusions.includes(inclusion) ? "font-bold" : "font-medium"} leading-normal`}>
                                         {inclusion}
                                     </span>
                                 </button>
@@ -171,6 +318,7 @@ export default function ExperiencesContent() {
                     <div className="flex items-center justify-between">
                         <p className="text-[#617589] dark:text-gray-400 text-sm font-medium">
                             Showing {experiences.length} of {totalExperiences} exclusive offers
+                            {searchQuery && ` for "${searchQuery}"`}
                         </p>
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-[#111418] dark:text-gray-300 hidden sm:block">Sort by:</span>
@@ -183,82 +331,43 @@ export default function ExperiencesContent() {
                         </div>
                     </div>
 
+                    {/* No Results Message */}
+                    {totalExperiences === 0 && searchQuery && (
+                        <div className="text-center py-12">
+                            <div className="text-gray-400 mb-4">
+                                <span className="material-symbols-outlined text-6xl">search_off</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-600 dark:text-gray-400 mb-2">
+                                No experiences found
+                            </h3>
+                            <p className="text-gray-500 dark:text-gray-500 mb-4">
+                                Try searching for a different resort, location, or amenity
+                            </p>
+                            <button
+                                onClick={clearSearch}
+                                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                            >
+                                Show all experiences
+                            </button>
+                        </div>
+                    )}
+
                     {/* Mobile Scroll Hint */}
-                    <div className="sm:hidden flex items-center justify-center gap-2 text-[#617589] dark:text-gray-400 text-xs mb-2">
-                        <span className="material-symbols-outlined text-sm">swipe</span>
-                        <span>Swipe to see more experiences</span>
-                    </div>
+                    {totalExperiences > 0 && (
+                        <div className="sm:hidden flex items-center justify-center gap-2 text-[#617589] dark:text-gray-400 text-xs mb-2">
+                            <span className="material-symbols-outlined text-sm">swipe</span>
+                            <span>Swipe to see more experiences</span>
+                        </div>
+                    )}
 
                     {/* Grid - Desktop */}
-                    <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                        {experiences.map((experience) => (
-                            <div key={experience.id} className="group flex flex-col rounded-xl bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                                <div className="relative h-48 sm:h-56 overflow-hidden">
-                                    {experience.badge && (
-                                        <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-10">
-                                            <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badgeStyle}`}>
-                                                {experience.badge}
-                                            </span>
-                                        </div>
-                                    )}
-                                    <img
-                                        alt={experience.name}
-                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                        src={experience.image}
-                                    />
-                                    <button className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 size-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
-                                        <span className="material-symbols-outlined text-lg">favorite</span>
-                                    </button>
-                                </div>
-                                <div className="flex flex-col flex-1 p-4 sm:p-5 gap-3 sm:gap-4">
-                                    <div className="flex flex-col gap-1">
-                                        <div className="flex items-start justify-between gap-2">
-                                            <a
-                                                href={`/experiences/${experience.id}`}
-                                                className="text-[#111418] dark:text-white text-base sm:text-lg font-bold leading-tight group-hover:text-primary transition-colors hover:text-primary"
-                                            >
-                                                {experience.name}
-                                            </a>
-                                        </div>
-                                        <div className="flex items-center gap-1 text-[#617589] dark:text-gray-400">
-                                            <span className="material-symbols-outlined text-sm">location_on</span>
-                                            <p className="text-xs font-medium">{experience.location}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                                        {experience.tags.map((tag) => (
-                                            <span key={tag} className="bg-[#f0f2f4] dark:bg-gray-800 text-[#617589] dark:text-gray-300 text-[10px] font-bold px-2 py-1 rounded">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                    <div className="mt-auto pt-2 border-t border-[#f0f2f4] dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
-                                        <div className="flex flex-col">
-                                            <p className="text-[#617589] dark:text-gray-400 text-xs">Starting from</p>
-                                            <p className="text-[#111418] dark:text-white text-lg font-bold">
-                                                ${experience.price} <span className="text-xs font-normal text-[#617589]">/ guest</span>
-                                            </p>
-                                        </div>
-                                        <a
-                                            href={`/experiences/${experience.id}`}
-                                            className="rounded-lg bg-primary px-4 py-2.5 sm:py-2 text-sm font-bold text-white hover:bg-blue-600 transition-colors text-center"
-                                        >
-                                            Book Now
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Horizontal Scroll - Mobile */}
-                    <div className="sm:hidden overflow-x-auto scrollbar-hide">
-                        <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
-                            {allExperiences.map((experience) => (
-                                <div key={experience.id} className="group flex flex-col rounded-xl bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 w-[280px] flex-shrink-0">
-                                    <div className="relative h-44 overflow-hidden">
+                    {totalExperiences > 0 && (
+                        <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                            {experiences.map((experience) => (
+                                <div key={experience.id} className="group flex flex-col rounded-xl bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                                    <div className="relative h-48 sm:h-56 overflow-hidden">
                                         {experience.badge && (
-                                            <div className="absolute top-2 left-2 z-10">
+                                            <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-10">
                                                 <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badgeStyle}`}>
                                                     {experience.badge}
                                                 </span>
@@ -269,16 +378,16 @@ export default function ExperiencesContent() {
                                             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                             src={experience.image}
                                         />
-                                        <button className="absolute bottom-2 right-2 size-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
-                                            <span className="material-symbols-outlined text-base">favorite</span>
+                                        <button className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 size-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
+                                            <span className="material-symbols-outlined text-lg">favorite</span>
                                         </button>
                                     </div>
-                                    <div className="flex flex-col flex-1 p-4 gap-3">
+                                    <div className="flex flex-col flex-1 p-4 sm:p-5 gap-3 sm:gap-4">
                                         <div className="flex flex-col gap-1">
                                             <div className="flex items-start justify-between gap-2">
                                                 <a
                                                     href={`/experiences/${experience.id}`}
-                                                    className="text-[#111418] dark:text-white text-base font-bold leading-tight group-hover:text-primary transition-colors hover:text-primary"
+                                                    className="text-[#111418] dark:text-white text-base sm:text-lg font-bold leading-tight group-hover:text-primary transition-colors hover:text-primary"
                                                 >
                                                     {experience.name}
                                                 </a>
@@ -288,14 +397,14 @@ export default function ExperiencesContent() {
                                                 <p className="text-xs font-medium">{experience.location}</p>
                                             </div>
                                         </div>
-                                        <div className="flex flex-wrap gap-1.5">
-                                            {experience.tags.slice(0, 2).map((tag) => (
+                                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                                            {experience.tags.map((tag) => (
                                                 <span key={tag} className="bg-[#f0f2f4] dark:bg-gray-800 text-[#617589] dark:text-gray-300 text-[10px] font-bold px-2 py-1 rounded">
                                                     {tag}
                                                 </span>
                                             ))}
                                         </div>
-                                        <div className="mt-auto pt-2 border-t border-[#f0f2f4] dark:border-gray-700 flex flex-col gap-2">
+                                        <div className="mt-auto pt-2 border-t border-[#f0f2f4] dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
                                             <div className="flex flex-col">
                                                 <p className="text-[#617589] dark:text-gray-400 text-xs">Starting from</p>
                                                 <p className="text-[#111418] dark:text-white text-lg font-bold">
@@ -304,7 +413,7 @@ export default function ExperiencesContent() {
                                             </div>
                                             <a
                                                 href={`/experiences/${experience.id}`}
-                                                className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-blue-600 transition-colors text-center"
+                                                className="rounded-lg bg-primary px-4 py-2.5 sm:py-2 text-sm font-bold text-white hover:bg-blue-600 transition-colors text-center"
                                             >
                                                 Book Now
                                             </a>
@@ -313,10 +422,76 @@ export default function ExperiencesContent() {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    )}
+
+                    {/* Horizontal Scroll - Mobile */}
+                    {totalExperiences > 0 && (
+                        <div className="sm:hidden overflow-x-auto scrollbar-hide">
+                            <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
+                                {experiences.map((experience) => (
+                                    <div key={experience.id} className="group flex flex-col rounded-xl bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300 w-[280px] flex-shrink-0">
+                                        <div className="relative h-44 overflow-hidden">
+                                            {experience.badge && (
+                                                <div className="absolute top-2 left-2 z-10">
+                                                    <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badgeStyle}`}>
+                                                        {experience.badge}
+                                                    </span>
+                                                </div>
+                                            )}
+                                            <img
+                                                alt={experience.name}
+                                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                src={experience.image}
+                                            />
+                                            <button className="absolute bottom-2 right-2 size-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
+                                                <span className="material-symbols-outlined text-base">favorite</span>
+                                            </button>
+                                        </div>
+                                        <div className="flex flex-col flex-1 p-4 gap-3">
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-start justify-between gap-2">
+                                                    <a
+                                                        href={`/experiences/${experience.id}`}
+                                                        className="text-[#111418] dark:text-white text-base font-bold leading-tight group-hover:text-primary transition-colors hover:text-primary"
+                                                    >
+                                                        {experience.name}
+                                                    </a>
+                                                </div>
+                                                <div className="flex items-center gap-1 text-[#617589] dark:text-gray-400">
+                                                    <span className="material-symbols-outlined text-sm">location_on</span>
+                                                    <p className="text-xs font-medium">{experience.location}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {experience.tags.slice(0, 2).map((tag) => (
+                                                    <span key={tag} className="bg-[#f0f2f4] dark:bg-gray-800 text-[#617589] dark:text-gray-300 text-[10px] font-bold px-2 py-1 rounded">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <div className="mt-auto pt-2 border-t border-[#f0f2f4] dark:border-gray-700 flex flex-col gap-2">
+                                                <div className="flex flex-col">
+                                                    <p className="text-[#617589] dark:text-gray-400 text-xs">Starting from</p>
+                                                    <p className="text-[#111418] dark:text-white text-lg font-bold">
+                                                        ${experience.price} <span className="text-xs font-normal text-[#617589]">/ guest</span>
+                                                    </p>
+                                                </div>
+                                                <a
+                                                    href={`/experiences/${experience.id}`}
+                                                    className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-blue-600 transition-colors text-center"
+                                                >
+                                                    Book Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Pagination / Load More - Desktop Only */}
-                    {!showAll && experiences.length < totalExperiences && (
+                    {!showAll && experiences.length < totalExperiences && totalExperiences > 0 && (
                         <div className="hidden sm:flex items-center justify-center mt-8 mb-4">
                             <button
                                 onClick={() => setShowAll(true)}
