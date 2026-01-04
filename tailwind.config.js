@@ -43,6 +43,36 @@ module.exports = {
           '&::-webkit-scrollbar': {
             display: 'none'
           }
+        },
+        '.scrollbar-thin': {
+          /* Firefox */
+          'scrollbar-width': 'thin',
+          /* Safari and Chrome */
+          '&::-webkit-scrollbar': {
+            width: '6px',
+          }
+        },
+        '.scrollbar-thumb-gray-300': {
+          '&::-webkit-scrollbar-thumb': {
+            'background-color': '#d1d5db',
+            'border-radius': '3px',
+          }
+        },
+        '.scrollbar-track-gray-100': {
+          '&::-webkit-scrollbar-track': {
+            'background-color': '#f3f4f6',
+          }
+        },
+        '.scrollbar-thumb-gray-600': {
+          '&::-webkit-scrollbar-thumb': {
+            'background-color': '#4b5563',
+            'border-radius': '3px',
+          }
+        },
+        '.scrollbar-track-gray-800': {
+          '&::-webkit-scrollbar-track': {
+            'background-color': '#1f2937',
+          }
         }
       })
     }
