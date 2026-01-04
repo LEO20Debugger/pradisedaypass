@@ -32,7 +32,7 @@ export default function SignUpModal({ isOpen, onClose, onSwitchToLogin }: SignUp
     }
 
     return (
-        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4 overflow-y-auto pt-12">
+        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4 overflow-y-auto pt-8">
             {/* Glass Background with Backdrop Blur */}
             <div
                 className="fixed inset-0 bg-black/20 backdrop-blur-md"
