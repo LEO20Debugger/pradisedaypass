@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
 
-export default function HowItWorksHero() {
-    const [activeTab, setActiveTab] = useState('guests')
+interface HowItWorksHeroProps {
+    activeTab: string
+    setActiveTab: (tab: string) => void
+}
 
+export default function HowItWorksHero({ activeTab, setActiveTab }: HowItWorksHeroProps) {
     return (
         <section className="relative w-full h-[600px] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 z-0">
@@ -13,7 +15,7 @@ export default function HowItWorksHero() {
                 <Image
                     alt="Turquoise ocean water and white sand beach in Turks and Caicos"
                     className="w-full h-full object-cover object-center"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCthSisrDslZYYmTQd2cbB0rwGMAyEd_llNa9gJHOtX7KsHAJ3PdH4aKUK7RJ599m96ptWgv2FrzwFUNarAr50BQhgTrqryi0TpRduL0VEoI957BNyR5upI2GK8ZTg8r_LFBDNtlj3ESLUtTggrzqzOGqP1sTUYYtP2QkTeR5fDe7jzYTnkaUfpd1ZbfS9LkY3RAz9yHG-I4wPZx1ZCZkQhpSVdcqs46Z6rTUoF9kJKv2Gpd17vL-bgtD7d2-DKSu1hMB00t-APIZH"
+                    src="https://images.unsplash.com/photo-1575517111478-7f6afd0973db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     fill
                     priority
                 />
@@ -33,17 +35,17 @@ export default function HowItWorksHero() {
                 <div className="mt-8 bg-white/10 backdrop-blur-md p-1.5 rounded-full border border-white/20 flex relative">
                     <button
                         className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 w-36 ${activeTab === 'guests'
-                                ? 'text-[#101922] bg-white shadow-sm'
-                                : 'text-white hover:bg-white/10'
+                            ? 'text-[#101922] bg-white shadow-sm'
+                            : 'text-white hover:bg-white/10'
                             }`}
                         onClick={() => setActiveTab('guests')}
                     >
                         For Guests
                     </button>
                     <button
-                        className={`relative z-10 px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 w-36 ${activeTab === 'partners'
-                                ? 'text-[#101922] bg-white shadow-sm'
-                                : 'text-white hover:bg-white/10'
+                        className={`relative z-10 px-6 md:px-10 py-2.5 rounded-full text-sm font-bold transition-all duration-300 w-36 md:w-44 ${activeTab === 'partners'
+                            ? 'text-[#101922] bg-white shadow-sm'
+                            : 'text-white hover:bg-white/10'
                             }`}
                         onClick={() => setActiveTab('partners')}
                     >

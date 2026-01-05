@@ -186,7 +186,7 @@ export default function ContactContent() {
                     <Image
                         alt="Serene turquoise infinity pool overlooking the ocean in Turks and Caicos with lounge chairs"
                         className="w-full h-full object-cover"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbWgqInYXQ7T2UhQW8nBwn9mafPLzKzigeotcJbD2jxs9z3b_TpYOnwFAJUoCK382cQKeBiPz6DfTDRbNRpJndgG3lcTRC3uHk6GPuVTMIVxGFCk4PIqRMQGkZDShO5CAHO1vxho40e_yKh-QSrKFHYmicmyBUjix9e6rHgnHdoTM72_BXWOCoHobGzndrhnbmixah7szow4NuvB2FlifyPJbej4Zoh8df5MgISKVC3A8ZxECTa6xjRRQJ9S1WqZfuMkGW6C-dunCq"
+                        src="https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         fill
                     />
                     {/* Gradient Overlay */}
