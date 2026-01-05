@@ -32,8 +32,8 @@ export default function HowItWorksSection() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
                     {steps.map((step, index) => (
                         <div key={index} className="flex flex-col items-center text-center group">
-                            <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-800 shadow-soft flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-luxury-sand/50">
-                                <span className="material-symbols-outlined text-luxury-gold text-3xl">{step.icon}</span>
+                            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-coral-50 to-coral-100 dark:from-coral-900/20 dark:to-coral-800/20 shadow-soft flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-coral-200/50 dark:border-coral-700/50">
+                                <span className="material-symbols-outlined text-coral-500 text-3xl">{step.icon}</span>
                             </div>
                             <h3 className="text-xl font-bold mb-3">{step.title}</h3>
                             <p className="text-gray-500 text-sm leading-relaxed max-w-xs">{step.description}</p>

@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 
 export default function AboutHero() {
@@ -22,7 +24,15 @@ export default function AboutHero() {
                     Discover the story behind the premier day pass booking platform in Turks and Caicos. We bridge the gap between discerning travelers and exclusive amenities.
                 </h2>
                 <div className="flex justify-center pt-4">
-                    <button className="flex h-12 px-8 cursor-pointer items-center justify-center rounded-full bg-white text-primary text-base font-bold transition-transform hover:scale-105 shadow-xl">
+                    <button
+                        onClick={() => {
+                            document.getElementById('our-story')?.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            })
+                        }}
+                        className="flex h-12 px-8 cursor-pointer items-center justify-center rounded-full bg-white text-primary text-base font-bold transition-transform hover:scale-105 shadow-xl"
+                    >
                         <span>Read Our Story</span>
                     </button>
                 </div>
