@@ -22,13 +22,13 @@ export default function CTASection() {
                     <div className="flex flex-col sm:flex-row gap-4">
                         <a
                             href="/experiences"
-                            className="bg-primary hover:bg-blue-700 text-white font-bold px-8 py-4 rounded-full transition-colors text-lg text-center"
+                            className="bg-gradient-to-r from-primary to-coral-500 hover:from-blue-700 hover:to-coral-600 text-white font-bold px-8 py-4 rounded-full transition-all text-lg text-center shadow-lg"
                         >
-                            Explore Passes
+                            Browse Day Passes
                         </a>
                         <a
                             href="/how-it-works"
-                            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold px-8 py-4 rounded-full transition-colors text-lg text-center"
+                            className="bg-white/10 hover:bg-coral-500/20 backdrop-blur-sm border border-white/30 hover:border-coral-300/50 text-white font-bold px-8 py-4 rounded-full transition-all text-lg text-center"
                         >
                             How It Works
                         </a>

@@ -27,7 +27,7 @@ export default function AboutContent() {
     ]
 
     return (
-        <div className="layout-container flex flex-col items-center w-full">
+        <div id="our-story" className="layout-container flex flex-col items-center w-full">
             <div className="layout-content-container flex flex-col max-w-[1120px] w-full px-5 md:px-10 py-16 gap-20">
                 {/* Origin Story */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

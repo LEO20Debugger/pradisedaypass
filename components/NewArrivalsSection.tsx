@@ -42,7 +42,7 @@ export default function NewArrivalsSection() {
                         <h2 className="text-3xl font-bold text-[#111418] dark:text-white tracking-tight">New Arrivals</h2>
                         <p className="text-gray-500 mt-2">Discover our newest resort partners in Turks and Caicos.</p>
                     </div>
-                    <a className="hidden md:flex items-center text-primary font-bold hover:text-blue-700 transition-colors" href="/experiences">
+                    <a className="hidden md:flex items-center text-coral-500 font-bold hover:text-coral-600 transition-colors" href="/experiences">
                         View all resorts
                         <span className="material-symbols-outlined text-lg ml-1">arrow_forward</span>
                     </a>
@@ -63,7 +63,7 @@ export default function NewArrivalsSection() {
                                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm">
                                         {resort.price}
                                     </div>
-                                    <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                                    <div className="absolute top-4 left-4 bg-gradient-to-r from-coral-400 to-coral-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
                                         {resort.badge}
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@ export default function NewArrivalsSection() {
                                     <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-bold shadow-sm">
                                         {resort.price}
                                     </div>
-                                    <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
+                                    <div className="absolute top-3 left-3 bg-gradient-to-r from-coral-400 to-coral-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
                                         {resort.badge}
                                     </div>
                                 </div>

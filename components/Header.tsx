@@ -59,7 +59,7 @@ export default function Header() {
                                                 Sign Up
                                             </button>
                                         </li>
-                                        <li><a className="block px-6 py-2.5 text-sm font-bold text-primary hover:bg-luxury-sand/20 transition-colors" href="/experiences">Browse Passes</a></li>
+                                        <li><a className="block px-6 py-2.5 text-sm font-bold text-primary hover:bg-luxury-sand/20 transition-colors" href="/experiences">Browse Day Passes</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -77,13 +77,13 @@ export default function Header() {
 
                         <div className="flex items-center gap-2 sm:gap-4">
                             <button
-                                className="hidden sm:block text-sm font-medium hover:text-primary transition-colors"
+                                className="hidden sm:block text-sm font-medium hover:text-coral-500 transition-colors"
                                 onClick={() => setIsLoginModalOpen(true)}
                             >
                                 Login
                             </button>
                             <button
-                                className="hidden md:block text-sm font-medium hover:text-primary transition-colors"
+                                className="hidden md:block text-sm font-medium bg-coral-50 hover:bg-coral-100 text-coral-600 hover:text-coral-700 px-4 py-2 rounded-full transition-colors border border-coral-200"
                                 onClick={() => setIsSignUpModalOpen(true)}
                             >
                                 Sign Up
@@ -92,7 +92,7 @@ export default function Header() {
                                 href="/experiences"
                                 className="hidden sm:inline-block bg-primary hover:bg-blue-700 text-white text-sm font-bold px-5 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg text-center"
                             >
-                                Browse Passes
+                                Browse Day Passes
                             </a>
                         </div>
                     </div>
