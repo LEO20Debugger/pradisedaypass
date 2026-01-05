@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function CTASection() {
     return (
-        <section className="py-20 px-4 bg-white dark:bg-gray-900">
+        <section className="pt-4 pb-20 px-4 bg-white dark:bg-gray-900">
             <div className="max-w-[1280px] mx-auto bg-black rounded-3xl overflow-hidden relative min-h-[400px] flex items-center">
                 <div className="absolute inset-0 opacity-60">
                     <Image

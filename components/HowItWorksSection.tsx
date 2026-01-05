@@ -18,7 +18,7 @@ export default function HowItWorksSection() {
     ]
 
     return (
-        <section className="hidden md:block py-24 px-4 bg-background-light dark:bg-background-dark">
+        <section className="hidden md:block pt-4 pb-20 px-4 bg-background-light dark:bg-background-dark">
             <div className="max-w-[1280px] mx-auto">
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-[#111418] dark:text-white mb-4 tracking-tight">
