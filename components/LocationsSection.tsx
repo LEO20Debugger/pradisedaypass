@@ -40,7 +40,7 @@ export default function LocationsSection() {
     ]
 
     return (
-        <section className="py-24 px-4 bg-background-light dark:bg-background-dark">
+        <section className="pt-4 pb-20 px-4 bg-background-light dark:bg-background-dark">
             <div className="max-w-[1280px] mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>

@@ -12,6 +12,8 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
     const searchParams = useSearchParams()
     const router = useRouter()
     const [searchQuery, setSearchQuery] = useState('')
+    const [sortBy, setSortBy] = useState('recommended')
+    const [showSortDropdown, setShowSortDropdown] = useState(false)
     const [selectedFilters, setSelectedFilters] = useState({
         locations: [] as string[],
         maxPrice: 500 as number,
@@ -47,6 +49,21 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
             setSearchQuery(propSearchQuery)
         }
     }, [propSearchQuery, searchQuery])
+
+    // Close sort dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Element
+            if (!target.closest('.sort-dropdown')) {
+                setShowSortDropdown(false)
+            }
+        }
+
+        if (showSortDropdown) {
+            document.addEventListener('mousedown', handleClickOutside)
+            return () => document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [showSortDropdown])
 
     const allExperiences = [
         {
@@ -148,9 +165,32 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
         return true
     })
 
+    // Sort experiences based on selected sort option
+    const sortedExperiences = [...filteredExperiences].sort((a, b) => {
+        switch (sortBy) {
+            case 'price-low':
+                return a.price - b.price
+            case 'price-high':
+                return b.price - a.price
+            case 'name':
+                return a.name.localeCompare(b.name)
+            case 'location':
+                return a.location.localeCompare(b.location)
+            case 'recommended':
+            default:
+                // Recommended sorting: prioritize badges, then price
+                const aHasBadge = a.badge ? 1 : 0
+                const bHasBadge = b.badge ? 1 : 0
+                if (aHasBadge !== bHasBadge) {
+                    return bHasBadge - aHasBadge // Badges first
+                }
+                return a.price - b.price // Then by price ascending
+        }
+    })
+
     // Show first 6 experiences initially, all on mobile or when showAll is true
-    const experiences = showAll ? filteredExperiences : filteredExperiences.slice(0, 6)
-    const totalExperiences = filteredExperiences.length
+    const experiences = showAll ? sortedExperiences : sortedExperiences.slice(0, 6)
+    const totalExperiences = sortedExperiences.length
 
     const clearSearch = () => {
         setSearchQuery('')
@@ -199,6 +239,24 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
                 ? prev.inclusions.filter(i => i !== inclusion)
                 : [...prev.inclusions, inclusion]
         }))
+    }
+
+    // Sorting options
+    const sortOptions = [
+        { value: 'recommended', label: 'Recommended' },
+        { value: 'price-low', label: 'Price: Low to High' },
+        { value: 'price-high', label: 'Price: High to Low' },
+        { value: 'name', label: 'Name: A to Z' },
+        { value: 'location', label: 'Location' }
+    ]
+
+    const handleSortChange = (newSortBy: string) => {
+        setSortBy(newSortBy)
+        setShowSortDropdown(false)
+    }
+
+    const getSortLabel = () => {
+        return sortOptions.find(option => option.value === sortBy)?.label || 'Recommended'
     }
 
     const resetAllFilters = () => {
@@ -322,11 +380,37 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
                         </p>
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-[#111418] dark:text-gray-300 hidden sm:block">Sort by:</span>
-                            <div className="relative group">
-                                <button className="flex items-center gap-2 text-sm font-bold text-[#111418] dark:text-white bg-transparent hover:text-primary transition-colors">
-                                    Recommended
-                                    <span className="material-symbols-outlined text-lg">expand_more</span>
+                            <div className="relative sort-dropdown">
+                                <button
+                                    onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                    className="flex items-center gap-2 text-sm font-bold text-[#111418] dark:text-white bg-transparent hover:text-primary transition-colors"
+                                >
+                                    {getSortLabel()}
+                                    <span className={`material-symbols-outlined text-lg transition-transform ${showSortDropdown ? 'rotate-180' : ''}`}>
+                                        expand_more
+                                    </span>
                                 </button>
+
+                                {/* Sort Dropdown */}
+                                {showSortDropdown && (
+                                    <div className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 min-w-[200px]">
+                                        {sortOptions.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => handleSortChange(option.value)}
+                                                className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg ${sortBy === option.value
+                                                    ? 'bg-primary/10 text-primary font-medium'
+                                                    : 'text-gray-900 dark:text-white'
+                                                    }`}
+                                            >
+                                                {option.label}
+                                                {sortBy === option.value && (
+                                                    <span className="material-symbols-outlined text-sm ml-2 float-right">check</span>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

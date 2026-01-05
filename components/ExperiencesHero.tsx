@@ -145,14 +145,12 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
         const currentMonth = today.getMonth()
         const currentYear = today.getFullYear()
         const firstDay = new Date(currentYear, currentMonth, 1)
-        const lastDay = new Date(currentYear, currentMonth + 1, 0)
         const startDate = new Date(firstDay)
         startDate.setDate(startDate.getDate() - firstDay.getDay())
 
         const days = []
         for (let i = 0; i < 42; i++) {
-            const date = new Date(startDate)
-            date.setDate(startDate.getDate() + i)
+            const date = new Date(startDate.getTime() + (i * 24 * 60 * 60 * 1000))
             days.push(date)
         }
         return days
@@ -347,7 +345,11 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                                                                 onMouseDown={(e) => {
                                                                     e.preventDefault()
                                                                     if (!isPast) {
-                                                                        handleDateClick(day.toISOString().split('T')[0])
+                                                                        const year = day.getFullYear()
+                                                                        const month = String(day.getMonth() + 1).padStart(2, '0')
+                                                                        const dayNum = String(day.getDate()).padStart(2, '0')
+                                                                        const dateString = `${year}-${month}-${dayNum}`
+                                                                        handleDateClick(dateString)
                                                                     }
                                                                 }}
                                                                 disabled={isPast}
@@ -497,7 +499,11 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                                                             onMouseDown={(e) => {
                                                                 e.preventDefault()
                                                                 if (!isPast) {
-                                                                    handleDateClick(day.toISOString().split('T')[0])
+                                                                    const year = day.getFullYear()
+                                                                    const month = String(day.getMonth() + 1).padStart(2, '0')
+                                                                    const dayNum = String(day.getDate()).padStart(2, '0')
+                                                                    const dateString = `${year}-${month}-${dayNum}`
+                                                                    handleDateClick(dateString)
                                                                 }
                                                             }}
                                                             disabled={isPast}
