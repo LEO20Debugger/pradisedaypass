@@ -351,7 +351,7 @@ export default function HeroSection() {
 
                         <button
                             onClick={handleSearch}
-                            className="bg-gradient-to-r from-primary to-coral-500 hover:from-blue-600 hover:to-coral-600 text-white font-bold rounded-lg px-6 py-3 transition-all shadow-lg flex items-center justify-center gap-2"
+                            className="bg-primary hover:bg-blue-600 text-white font-bold rounded-lg px-6 py-3 transition-colors shadow-lg flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined">search</span>
                             <span>Search</span>
@@ -504,7 +504,7 @@ export default function HeroSection() {
 
                         <button
                             onClick={handleSearch}
-                            className="bg-gradient-to-r from-primary to-coral-500 hover:from-blue-600 hover:to-coral-600 text-white font-bold rounded-xl px-6 sm:px-8 py-3 md:py-0 transition-all shadow-lg flex items-center justify-center gap-2"
+                            className="bg-primary hover:bg-blue-600 text-white font-bold rounded-xl px-6 sm:px-8 py-3 md:py-0 transition-colors shadow-lg flex items-center justify-center gap-2"
                         >
                             <span className="material-symbols-outlined">search</span>
                             <span>Search</span>
