@@ -191,9 +191,6 @@ export default function HeroSection() {
             </div>
 
             <div className="relative z-20 layout-container flex flex-col items-center justify-center px-4 py-8 sm:py-12 text-center max-w-[960px] mt-6 sm:mt-10">
-                <span className="text-luxury-gold text-xs sm:text-sm uppercase tracking-[0.2em] font-bold mb-3 sm:mb-4 drop-shadow-md">
-                    Turks & Caicos Collection
-                </span>
                 <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight tracking-tight mb-4 sm:mb-6 drop-shadow-lg">
                     Unlock Paradise<br />
                     <span className="font-bold">For The Day</span>

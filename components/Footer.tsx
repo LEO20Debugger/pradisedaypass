@@ -4,7 +4,6 @@ export default function Footer() {
             title: 'Discover',
             links: [
                 { name: 'Resorts', href: '/experiences' },
-                { name: 'Destinations', href: '/experiences' },
                 { name: 'Collections', href: '/experiences' },
                 { name: 'New Arrivals', href: '/experiences' }
             ]
@@ -14,8 +13,7 @@ export default function Footer() {
             links: [
                 { name: 'About Us', href: '/about' },
                 { name: 'Careers', href: '#' },
-                { name: 'Partner with Us', href: '#' },
-                { name: 'Press', href: '#' }
+                { name: 'Partner with Us', href: '/how-it-works?tab=partners' }
             ]
         },
         {
