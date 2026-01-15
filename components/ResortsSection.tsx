@@ -57,7 +57,7 @@ export default function ResortsSection() {
             <div className="max-w-[1280px] mx-auto">
                 <div className="flex justify-between items-end mb-12">
                     <div>
-                        <h2 className="text-3xl font-bold text-[#111418] dark:text-white tracking-tight">Exclusive Retreats</h2>
+                        <h2 className="text-3xl font-bold text-[#111418] dark:text-white tracking-tight">Featured Resorts</h2>
                         <p className="text-gray-500 mt-2">Discover our most sought-after day pass experiences.</p>
                     </div>
                     <a className="hidden md:flex items-center text-primary font-bold hover:text-blue-700 transition-colors" href="/experiences">
