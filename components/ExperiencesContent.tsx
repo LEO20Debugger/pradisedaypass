@@ -125,6 +125,16 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
             price: 125,
             image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
             tags: ["Eco-Tours", "Fishing"]
+        },
+        {
+            id: 10,
+            name: "Club Med",
+            location: "Grace Bay, Providenciales",
+            price: 320,
+            image: "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyLdhN4D4aHk3PpS_N4vuyAVeVhbMiMD2hwsDk-Q0Ok-ztVMQH4OmcGk6_GyzbeCNiLKWrRgeEyYZjVIbU99VBTmNU3Mgsn0fT-PUATk1t2mXVvFXtxwInkFocSep_1uEJpOR7L=s1360-w1360-h1020-rw",
+            tags: ["All-Inclusive", "Adults Only", "Water Sports"],
+            badge: "Premium",
+            badgeStyle: "bg-luxury-gold text-white"
         }
     ]
 
