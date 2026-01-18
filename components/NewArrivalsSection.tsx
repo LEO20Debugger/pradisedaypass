@@ -23,6 +23,26 @@ export default function NewArrivalsSection() {
             badge: 'New'
         },
         {
+            id: 11,
+            name: 'Alexandra Resort',
+            location: 'Grace Bay, Providenciales',
+            rating: 4.6,
+            price: 'From $220',
+            image: 'https://lh3.googleusercontent.com/p/AF1QipNmcg9Metm1vcr8vGtHh5cymrCq02C1_Ffdu0iH=s1360-w1360-h1020-rw',
+            amenities: ['All-Inclusive', 'Lagoon Pool', 'Water Sports'],
+            badge: 'New'
+        },
+        {
+            id: 8,
+            name: 'Beaches Turks & Caicos',
+            location: 'Lower Bight, Providenciales',
+            rating: 4.7,
+            price: 'From $195',
+            image: 'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwD2Qt9yT2g4MhZCRigJrw9-ilDK9MB_vFH_kYxkMX7Fj7INPVjzGT4Go_X4aDqoEAV03k1pZqLuSxIeqjehqNwKXnhcnnrergrCHUwPprORzMZMZhEr2bjjt1hQRpdTUgmEQ=s1360-w1360-h1020-rw',
+            amenities: ['Water Park', 'Kids Club', 'Multiple Pools'],
+            badge: 'New'
+        },
+        {
             id: 3,
             name: 'Seven Stars Resort',
             location: 'Grace Bay, Providenciales',
