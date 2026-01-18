@@ -13,6 +13,16 @@ export default function NewArrivalsSection() {
             badge: 'New'
         },
         {
+            id: 10,
+            name: 'Club Med',
+            location: 'Grace Bay, Providenciales',
+            rating: 4.7,
+            price: 'From $320',
+            image: 'https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyLdhN4D4aHk3PpS_N4vuyAVeVhbMiMD2hwsDk-Q0Ok-ztVMQH4OmcGk6_GyzbeCNiLKWrRgeEyYZjVIbU99VBTmNU3Mgsn0fT-PUATk1t2mXVvFXtxwInkFocSep_1uEJpOR7L=s1360-w1360-h1020-rw',
+            amenities: ['All-Inclusive', 'Adults Only', 'Water Sports'],
+            badge: 'New'
+        },
+        {
             id: 3,
             name: 'Seven Stars Resort',
             location: 'Grace Bay, Providenciales',

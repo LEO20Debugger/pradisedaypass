@@ -212,6 +212,36 @@ export default function ExperienceDetailsContent({ experienceId }: ExperienceDet
                 { icon: "local_parking", title: "Complimentary Parking", description: "Free on-site parking" },
                 { icon: "kayaking", title: "Water Activities", description: "Kayaking and snorkeling equipment" }
             ]
+        },
+        {
+            id: 10,
+            name: "Club Med",
+            location: "Grace Bay, Providenciales",
+            price: 320,
+            pricePerChild: 160,
+            serviceFee: 60,
+            rating: 4.7,
+            reviewCount: 178,
+            image: "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSww9d2I1UGTDzK4Kz7B7K92TRD4P__xjzgCmbtPyh9DfvwhDgYHcrB3MydAKiK3lFo_DUqoL_qQkpvouj0aED0doizN62FCSEE8EkSJ9J2Sp7tzX1RecrCL4l9glFsCJjABH1qsdA=s1360-w1360-h1020-rw",
+            images: [
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzwoXfwAjUruDrs4QjcJWI-gB54znbPDAcnqRvNHCHGavFR2FYrypWP1CwH6mzK3BVFapEdmnhMy28K_xRjxMIU6cwU4G6S67jB7SA_vk0t6qxtXR10xuhCzk_NARdlyDN7C-6H=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyLdhN4D4aHk3PpS_N4vuyAVeVhbMiMD2hwsDk-Q0Ok-ztVMQH4OmcGk6_GyzbeCNiLKWrRgeEyYZjVIbU99VBTmNU3Mgsn0fT-PUATk1t2mXVvFXtxwInkFocSep_1uEJpOR7L=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxcB8-Y3nBvWwxflOX4KuhdpUUIRJn3HVepdZ5ufgA9Q1wyft0xdLGc1VIbeZzN1eAnPno1_wT98sQ2NRASOct0kpaAKnF3Cx2K02ZxbWDL1ta6UaPnSsiYn5yMll-9rPqx7Zbv=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzNTu7Bs6gHeXguaT_1WHHQYPBPoPSLLWXlKqJR5KISSBqVeLU8wJ_7NyqYL3VhVpzX_oye3mLnWWbiDv01sxUk_E35xWO79K13b24Tp3Vvce2_vpQl-20lteOfzLKs0HSbKOeOlA=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSww9d2I1UGTDzK4Kz7B7K92TRD4P__xjzgCmbtPyh9DfvwhDgYHcrB3MydAKiK3lFo_DUqoL_qQkpvouj0aED0doizN62FCSEE8EkSJ9J2Sp7tzX1RecrCL4l9glFsCJjABH1qsdA=s1360-w1360-h1020-rw",
+            ],
+            tags: ["All-Inclusive", "Adults Only", "Water Sports"],
+            description: "Experience the legendary Club Med all-inclusive luxury at our adults-only resort on Grace Bay Beach. Enjoy unlimited gourmet dining, premium beverages, water sports, and world-class entertainment in an elegant beachfront setting designed exclusively for sophisticated travelers.",
+            amenities: [
+                { icon: "all_inclusive", title: "All-Inclusive Premium", description: "Unlimited food, drinks, and activities included" },
+                { icon: "18_up_rating", title: "Adults Only Resort", description: "Sophisticated atmosphere for guests 18+" },
+                { icon: "kayaking", title: "Complimentary Water Sports", description: "Kayaking, snorkeling, windsurfing, and sailing" },
+                { icon: "restaurant", title: "Gourmet Dining", description: "Multiple specialty restaurants and bars" },
+                { icon: "sports_bar", title: "Entertainment & Shows", description: "Live music, themed parties, and performances" },
+                { icon: "spa", title: "Spa Services", description: "Relaxation and wellness treatments available" },
+                { icon: "fitness_center", title: "Fitness Center", description: "Fully equipped gym and group classes" },
+                { icon: "local_parking", title: "Valet Parking", description: "Complimentary valet service" }
+            ]
         }
     ]
 
