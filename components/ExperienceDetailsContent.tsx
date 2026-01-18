@@ -163,21 +163,23 @@ export default function ExperienceDetailsContent({ experienceId }: ExperienceDet
         },
         {
             id: 8,
-            name: "Beaches Resort",
+            name: "Beaches Turks & Caicos",
             location: "Lower Bight, Providenciales",
             price: 195,
             pricePerChild: 95,
             serviceFee: 40,
             rating: 4.6,
             reviewCount: 142,
-            image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            image: "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwD2Qt9yT2g4MhZCRigJrw9-ilDK9MB_vFH_kYxkMX7Fj7INPVjzGT4Go_X4aDqoEAV03k1pZqLuSxIeqjehqNwKXnhcnnrergrCHUwPprORzMZMZhEr2bjjt1hQRpdTUgmEQ=s1360-w1360-h1020-rw",
             images: [
-                "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-                "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwD2Qt9yT2g4MhZCRigJrw9-ilDK9MB_vFH_kYxkMX7Fj7INPVjzGT4Go_X4aDqoEAV03k1pZqLuSxIeqjehqNwKXnhcnnrergrCHUwPprORzMZMZhEr2bjjt1hQRpdTUgmEQ=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwkJIwFDSUTgLVa-QDK0IPGCdls4-DTc9YVkJOuloPZaw50U6m1l9XXdOdkMGodXv3q59EcG19ZBM3V-uCao0xjjh4O2ffz54_8OtXxcrP-iRIw-qZrMEI-1rFYWaJdRmE30so0KQ=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxoOOKoYua7DC8dVtZQWM4STr34gZ1WQuiGOTFP94wsVSeYD35nZitlX-o5CJB5JAP5HcOzJszILia2pBt_lqiGAZ411qTuVGFj9eYey8E95N5QobjkRNtDg34EcbQZYgI4hwM8=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyaLBcSuOQJbBDheRkaFDCTjAZ9e-LChdWQNqdz4ktgpwzbUUMf44a7UkxsuO5YwqOsvOQ-HVkCIuqz9XkIteM0l9ksSyDSHsFV4dv3leVEuqSHbgC-vErplWeFDDjho3nTorNLDA=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSy2nlkOdM-Z_ow90e_tl_iL8lLJLSDXiixyUwDTUCfpTxIHSiACygwBIyUq4nOazs96AteuGgxRBLVG7HG76H7PIEH9S4a9ld6ncJpEL2VCxc68LpYatI_TfT7tiqmr2OtTtRQAKA=s1360-w1360-h1020-rw",
             ],
             tags: ["Water Park", "Kids Club"],
-            description: "Perfect for families, Beaches Resort offers an exciting water park, supervised kids club, and endless activities for all ages. Enjoy all-inclusive dining, entertainment, and family-friendly amenities in a tropical paradise setting.",
+            description: "Perfect for families, Beaches Turks & Caicos offers an exciting water park, supervised kids club, and endless activities for all ages. Enjoy all-inclusive dining, entertainment, and family-friendly amenities in a tropical paradise setting.",
             amenities: [
                 { icon: "pool", title: "Pirates Island Water Park", description: "Massive water park with slides and pools" },
                 { icon: "child_care", title: "Kids Club", description: "Supervised activities for children" },
@@ -241,6 +243,36 @@ export default function ExperienceDetailsContent({ experienceId }: ExperienceDet
                 { icon: "spa", title: "Spa Services", description: "Relaxation and wellness treatments available" },
                 { icon: "fitness_center", title: "Fitness Center", description: "Fully equipped gym and group classes" },
                 { icon: "local_parking", title: "Valet Parking", description: "Complimentary valet service" }
+            ]
+        },
+        {
+            id: 11,
+            name: "Alexandra Resort",
+            location: "Grace Bay, Providenciales",
+            price: 220,
+            pricePerChild: 110,
+            serviceFee: 40,
+            rating: 4.6,
+            reviewCount: 164,
+            image: "https://lh3.googleusercontent.com/p/AF1QipNmcg9Metm1vcr8vGtHh5cymrCq02C1_Ffdu0iH=s1360-w1360-h1020-rw",
+            images: [
+                "https://lh3.googleusercontent.com/p/AF1QipNmcg9Metm1vcr8vGtHh5cymrCq02C1_Ffdu0iH=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/p/AF1QipNtg_E2Px6uNlC3tGCtue5SssXWhAWzRBWu6o92=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSxIghTUEPaf0hie0NSYu_P7ZW2Z99Y4aJgoj0Bu6Z0ZQ0g-fw5ME6_zFAPhsA6f9CAKV9cC9oNsxjCGE-wmNGC5rpoxuXkHc_AwFJuAC3lHe08U4Wz11QJT-EX770H9sq_oABMQzPPuQ54t=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/p/AF1QipPkitA59cwzGQFFa3DAQpR-KJX0VxUn0F5_3L3p=s1360-w1360-h1020-rw",
+                "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSw4wY1EfNlsFYcOiohVZIw5NDv8bzWAvCF8BV7mCB1gTsu0y0AE9nbkeZU6GgIzNpkx7bL4mmW9QjITa1uX1gxgW3MeVIHv7-xYGXr0cJug4l2hQXnsfkv6qFWGVrIMTqELHHmzfg=s1360-w1360-h1020-rw",
+            ],
+            tags: ["All-Inclusive", "Lagoon Pool", "Water Sports"],
+            description: "Experience the perfect blend of luxury and family-friendly fun at Alexandra Resort, featuring 90 sophisticated suites along 600 feet of pristine Grace Bay Beach. Enjoy our signature lagoon-style pool, all-inclusive dining at multiple restaurants, and complimentary water sports in a relaxed, welcoming atmosphere.",
+            amenities: [
+                { icon: "all_inclusive", title: "All-Inclusive Package", description: "Unlimited dining, drinks, and activities" },
+                { icon: "pool", title: "Lagoon-Style Pool", description: "Expansive pool with swim-up bar" },
+                { icon: "kayaking", title: "Water Sports Included", description: "Kayaking, snorkeling, and windsurfing" },
+                { icon: "restaurant", title: "Multiple Restaurants", description: "Five dining venues and bars" },
+                { icon: "child_care", title: "Family Friendly", description: "Kids activities and family suites" },
+                { icon: "spa", title: "Spa Services", description: "Full-service spa and wellness center" },
+                { icon: "fitness_center", title: "Fitness Center", description: "Modern gym and tennis court" },
+                { icon: "local_parking", title: "Complimentary Parking", description: "Free on-site parking" }
             ]
         }
     ]

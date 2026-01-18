@@ -31,15 +31,6 @@ export default function ResortsSection() {
             image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80',
             amenities: ['Luxury Spa', 'Fine Dining', 'Butler Service']
         },
-        {
-            id: 8,
-            name: 'Beaches Resort',
-            location: 'Lower Bight, Providenciales',
-            rating: 4.7,
-            price: 'From $195',
-            image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80',
-            amenities: ['Water Park', 'Kids Club', 'Multiple Pools']
-        },
 
         {
             id: 9,

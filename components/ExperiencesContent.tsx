@@ -112,10 +112,10 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
         },
         {
             id: 8,
-            name: "Beaches Resort",
+            name: "Beaches Turks & Caicos",
             location: "Lower Bight, Providenciales",
             price: 195,
-            image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+            image: "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwD2Qt9yT2g4MhZCRigJrw9-ilDK9MB_vFH_kYxkMX7Fj7INPVjzGT4Go_X4aDqoEAV03k1pZqLuSxIeqjehqNwKXnhcnnrergrCHUwPprORzMZMZhEr2bjjt1hQRpdTUgmEQ=s1360-w1360-h1020-rw",
             tags: ["Water Park", "Kids Club"]
         },
         {
@@ -135,6 +135,16 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
             tags: ["All-Inclusive", "Adults Only", "Water Sports"],
             badge: "Premium",
             badgeStyle: "bg-luxury-gold text-white"
+        },
+        {
+            id: 11,
+            name: "Alexandra Resort",
+            location: "Grace Bay, Providenciales",
+            price: 220,
+            image: "https://lh3.googleusercontent.com/p/AF1QipNmcg9Metm1vcr8vGtHh5cymrCq02C1_Ffdu0iH=s1360-w1360-h1020-rw",
+            tags: ["All-Inclusive", "Lagoon Pool", "Water Sports"],
+            badge: "Family Friendly",
+            badgeStyle: "bg-green-500 text-white"
         }
     ]
 
