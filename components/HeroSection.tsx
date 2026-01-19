@@ -592,7 +592,6 @@ export default function HeroSection() {
                                                                 const dayNum = String(day.getDate()).padStart(2, '0')
                                                                 const dateString = `${year}-${month}-${dayNum}`
                                                                 handleDateClick(dateString)
-                                                                setShowCalendar(false)
                                                             }
                                                         }}
                                                         disabled={isPast}
