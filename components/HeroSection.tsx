@@ -230,20 +230,20 @@ export default function HeroSection() {
                 />
             </div>
 
-            {/* Hero Content - Upper Section */}
+            {/* Hero Content and Search - Combined Section */}
             <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 py-6 sm:py-8 lg:py-12 text-center max-w-[960px] mx-auto">
                 <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-tight tracking-tight mb-3 sm:mb-4 lg:mb-6 drop-shadow-lg">
                     Unlock Paradise<br />
                     <span className="font-bold">For The Day</span>
                 </h1>
-                <p className="text-white text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl mb-4 sm:mb-6 lg:mb-8 drop-shadow-md text-balance px-4">
+                <p className="text-white text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl mb-6 sm:mb-8 lg:mb-10 drop-shadow-md text-balance px-4">
                     Experience world-class luxury at the finest resorts without the overnight stay. Your exclusive pass to relaxation awaits.
                 </p>
-            </div>
 
-            {/* Search Bar - Lower Section */}
-            <div className="relative z-20 px-4 pb-8 sm:pb-12 lg:pb-16">
-                <div className="w-full max-w-4xl mx-auto glass-panel p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-glass">
+                {/* Search Bar - Moved closer to text */}
+                <div className="w-full max-w-4xl">
+                <div className="w-full max-w-4xl">
+                    <div className="glass-panel p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-glass">
                     {/* Mobile Layout - Simple Search Bar */}
                     <div className="sm:hidden">
                         <button
@@ -411,6 +411,8 @@ export default function HeroSection() {
                         </button>
                     </div>
                 </div>
+            </div>
+            </div>
             </div>
 
             {/* Mobile Search Modal */}
