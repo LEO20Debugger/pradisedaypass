@@ -13,11 +13,12 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
     const router = useRouter()
     const [destination, setDestination] = useState('')
     const [date, setDate] = useState('')
-    const [showSuggestions, setShowSuggestions] = useState(false)
-    const [showCalendar, setShowCalendar] = useState(false)
+    const [activeSection, setActiveSection] = useState<'none' | 'where' | 'date'>('none')
+    const [showMobileSearchModal, setShowMobileSearchModal] = useState(false)
     const [filteredSuggestions, setFilteredSuggestions] = useState<any[]>([])
     const inputRef = useRef<HTMLInputElement>(null)
     const calendarRef = useRef<HTMLDivElement>(null)
+    const modalContentRef = useRef<HTMLDivElement>(null)
 
     // Experience data for search suggestions
     const experiences = [
@@ -112,22 +113,25 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
 
             // Combine both types of suggestions
             setFilteredSuggestions([...filteredExperiences, ...filteredLocations])
-            setShowSuggestions(true)
+            // Keep the where section open when typing
+            if (activeSection !== 'where') {
+                setActiveSection('where')
+            }
         } else {
-            setShowSuggestions(false)
+            setFilteredSuggestions([])
         }
     }
 
     const handleSuggestionClick = (suggestion: any) => {
         const suggestionText = typeof suggestion === 'string' ? suggestion : suggestion.name
         setDestination(suggestionText)
-        setShowSuggestions(false)
+        setActiveSection('none')
         inputRef.current?.blur()
     }
 
     const handleDateClick = (selectedDate: string) => {
         setDate(selectedDate)
-        setShowCalendar(false)
+        setActiveSection('none')
     }
 
     const formatDateDisplay = (dateString: string) => {
@@ -177,13 +181,14 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            if (showSuggestions && filteredSuggestions.length > 0) {
-                handleSuggestionClick(filteredSuggestions[0])
+            if (activeSection === 'where' && filteredSuggestions.length > 0) {
+                const firstSuggestion = filteredSuggestions[0]
+                handleSuggestionClick(firstSuggestion)
             } else {
                 handleSearch()
             }
         } else if (e.key === 'Escape') {
-            setShowSuggestions(false)
+            setActiveSection('none')
         }
     }
 
@@ -191,193 +196,54 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node
-            if (inputRef.current && !inputRef.current.closest('.relative')?.contains(target)) {
-                setShowSuggestions(false)
-            }
-            if (calendarRef.current && !calendarRef.current.contains(target)) {
-                setShowCalendar(false)
+            
+            // Only close if clicking outside the modal content area
+            if (modalContentRef.current && !modalContentRef.current.contains(target)) {
+                console.log('Clicking outside modal, closing sections')
+                setActiveSection('none')
             }
         }
 
-        document.addEventListener('mousedown', handleClickOutside)
+        // Only add listener when modal is open
+        if (showMobileSearchModal) {
+            document.addEventListener('mousedown', handleClickOutside)
+        }
+        
         return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
+    }, [showMobileSearchModal])
 
     return (
         <div className="relative w-full bg-white dark:bg-[#101922] group/design-root overflow-visible">
             <div className="@container">
                 <div
-                    className="flex flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-8 py-20 lg:py-24 overflow-visible"
+                    className="flex flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-4 py-12 sm:p-8 sm:py-20 lg:py-24 overflow-visible"
                     style={{
                         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("/images/experience-hero-image.jpg")`
                     }}
                 >
                     <div className="flex flex-col gap-2 text-center max-w-[800px] px-4">
-                        <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-md">
+                        <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-md">
                             Exclusive Resort Day Passes
                         </h1>
-                        <h2 className="text-white text-sm sm:text-base md:text-lg font-medium leading-normal drop-shadow-sm opacity-90">
+                        <h2 className="text-white text-xs sm:text-sm md:text-base lg:text-lg font-medium leading-normal drop-shadow-sm opacity-90">
                             Unlock access to the most pristine pools, private beaches, and luxury amenities in Turks and Caicos.
                         </h2>
                     </div>
 
                     {/* Advanced Search Bar - Same as Homepage */}
-                    <div className="w-full max-w-4xl mt-6 px-4 relative z-[60]">
+                    <div className="w-full max-w-4xl mt-4 sm:mt-6 px-4 relative z-[60]">
                         <div className="glass-panel p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-glass relative overflow-visible">
-                            {/* Mobile Layout */}
-                            <div className="flex flex-col gap-2 sm:hidden">
-                                <div className="relative">
-                                    <div className="flex items-center bg-white dark:bg-gray-800 rounded-lg px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors">
-                                        <span className="material-symbols-outlined text-gray-400 mr-3">location_on</span>
-                                        <div className="flex flex-col items-start justify-center w-full min-w-0">
-                                            <label className="text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-1">Destination</label>
-                                            <input
-                                                ref={inputRef}
-                                                className="w-full text-sm font-medium bg-transparent border-none p-0 focus:ring-0 placeholder-gray-400 text-gray-900 dark:text-white leading-tight truncate"
-                                                placeholder="Where are you going?"
-                                                type="text"
-                                                value={destination}
-                                                onChange={(e) => handleDestinationChange(e.target.value)}
-                                                onKeyDown={handleKeyDown}
-                                                onFocus={() => destination.length > 0 && setShowSuggestions(true)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Mobile Suggestions Dropdown */}
-                                    {showSuggestions && filteredSuggestions.length > 0 && (
-                                        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-[9999] max-h-60 overflow-y-auto">
-                                            {filteredSuggestions.slice(0, 6).map((suggestion, index) => (
-                                                <button
-                                                    key={index}
-                                                    className="w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0"
-                                                    onMouseDown={(e) => {
-                                                        e.preventDefault()
-                                                        handleSuggestionClick(suggestion)
-                                                    }}
-                                                >
-                                                    {typeof suggestion === 'string' ? (
-                                                        // Location suggestion
-                                                        <div className="flex items-center gap-3 px-4 py-3">
-                                                            <span className="material-symbols-outlined text-gray-400 text-sm">location_on</span>
-                                                            <span className="text-sm text-gray-900 dark:text-white">{suggestion}</span>
-                                                        </div>
-                                                    ) : (
-                                                        // Experience suggestion with preview
-                                                        <div className="flex items-center gap-3 p-3">
-                                                            <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
-                                                                <img
-                                                                    src={suggestion.image}
-                                                                    alt={suggestion.name}
-                                                                    className="w-full h-full object-cover"
-                                                                />
-                                                            </div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                                                    {suggestion.name}
-                                                                </div>
-                                                                <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                                                    {suggestion.location}
-                                                                </div>
-                                                                <div className="flex items-center gap-2 mt-1">
-                                                                    <span className="text-xs font-bold text-primary">
-                                                                        ${suggestion.price}
-                                                                    </span>
-                                                                    <div className="flex gap-1">
-                                                                        {suggestion.tags.slice(0, 2).map((tag: string) => (
-                                                                            <span key={tag} className="text-[10px] bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded">
-                                                                                {tag}
-                                                                            </span>
-                                                                        ))}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="grid grid-cols-1 gap-2">
-                                    <div className="relative">
-                                        <button
-                                            onClick={() => {
-                                                setShowCalendar(!showCalendar)
-                                            }}
-                                            className="w-full flex items-center bg-white dark:bg-gray-800 rounded-lg px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors text-left"
-                                        >
-                                            <span className="material-symbols-outlined text-gray-400 mr-3 flex-shrink-0">calendar_month</span>
-                                            <div className="flex flex-col items-start w-full">
-                                                <label className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Date</label>
-                                                <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                                    {formatDateDisplay(date)}
-                                                </span>
-                                            </div>
-                                        </button>
-
-                                        {/* Mobile Calendar Popup */}
-                                        {showCalendar && (
-                                            <div ref={calendarRef} className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-[9999] p-4">
-                                                <div className="text-center mb-4">
-                                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                                                        {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                                                    </h3>
-                                                </div>
-                                                <div className="grid grid-cols-7 gap-1 mb-2">
-                                                    {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-                                                        <div key={day} className="text-center text-xs font-medium text-gray-500 dark:text-gray-400 py-2">
-                                                            {day}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                <div className="grid grid-cols-7 gap-1">
-                                                    {generateCalendarDays().map((day, index) => {
-                                                        const isCurrentMonth = day.getMonth() === new Date().getMonth()
-                                                        const isToday = day.toDateString() === new Date().toDateString()
-                                                        const isPast = day < new Date(new Date().setHours(0, 0, 0, 0))
-                                                        const isSelected = date === day.toISOString().split('T')[0]
-
-                                                        return (
-                                                            <button
-                                                                key={index}
-                                                                onMouseDown={(e) => {
-                                                                    e.preventDefault()
-                                                                    if (!isPast) {
-                                                                        const year = day.getFullYear()
-                                                                        const month = String(day.getMonth() + 1).padStart(2, '0')
-                                                                        const dayNum = String(day.getDate()).padStart(2, '0')
-                                                                        const dateString = `${year}-${month}-${dayNum}`
-                                                                        handleDateClick(dateString)
-                                                                    }
-                                                                }}
-                                                                disabled={isPast}
-                                                                className={`
-                                                                    text-xs py-2 rounded transition-colors touch-manipulation
-                                                                    ${!isCurrentMonth ? 'text-gray-300 dark:text-gray-600' : ''}
-                                                                    ${isToday ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300' : ''}
-                                                                    ${isSelected ? 'bg-primary text-white' : ''}
-                                                                    ${isPast ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer active:bg-gray-200 dark:active:bg-gray-600'}
-                                                                    ${!isPast && !isSelected && !isToday ? 'text-gray-900 dark:text-white' : ''}
-                                                                `}
-                                                            >
-                                                                {day.getDate()}
-                                                            </button>
-                                                        )
-                                                    })}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
+                            {/* Mobile Layout - Simple Search Bar */}
+                            <div className="sm:hidden">
                                 <button
-                                    onClick={handleSearch}
-                                    className="bg-primary hover:bg-blue-600 text-white font-bold rounded-lg px-6 py-3 transition-colors shadow-lg flex items-center justify-center gap-2"
+                                    onClick={() => {
+                                        setShowMobileSearchModal(true)
+                                        setActiveSection('where')
+                                    }}
+                                    className="w-full flex items-center bg-white dark:bg-gray-800 rounded-lg px-4 py-3 border border-transparent hover:border-primary/50 transition-colors text-left"
                                 >
-                                    <span className="material-symbols-outlined">search</span>
-                                    <span>Search</span>
+                                    <span className="material-symbols-outlined text-gray-400 mr-3">search</span>
+                                    <span className="text-gray-500 dark:text-gray-400 text-sm">Start your search</span>
                                 </button>
                             </div>
 
@@ -396,13 +262,13 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                                                 value={destination}
                                                 onChange={(e) => handleDestinationChange(e.target.value)}
                                                 onKeyDown={handleKeyDown}
-                                                onFocus={() => destination.length > 0 && setShowSuggestions(true)}
+                                                onFocus={() => destination.length > 0 && setActiveSection('where')}
                                             />
                                         </div>
                                     </div>
 
                                     {/* Desktop Suggestions Dropdown */}
-                                    {showSuggestions && filteredSuggestions.length > 0 && (
+                                    {activeSection === 'where' && filteredSuggestions.length > 0 && (
                                         <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-[9999] max-h-80 overflow-y-auto">
                                             {filteredSuggestions.slice(0, 6).map((suggestion, index) => (
                                                 <button
@@ -459,7 +325,7 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
 
                                 <div className="relative flex-1">
                                     <button
-                                        onClick={() => setShowCalendar(!showCalendar)}
+                                        onClick={() => setActiveSection(activeSection === 'date' ? 'none' : 'date')}
                                         className="w-full flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors text-left"
                                     >
                                         <span className="material-symbols-outlined text-gray-400 mr-3 flex-shrink-0">calendar_month</span>
@@ -472,7 +338,7 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                                     </button>
 
                                     {/* Desktop Calendar Popup */}
-                                    {showCalendar && (
+                                    {activeSection === 'date' && (
                                         <div ref={calendarRef} className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-[9999] p-4 min-w-[300px]">
                                             <div className="text-center mb-4">
                                                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">
@@ -537,6 +403,235 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Search Modal */}
+            {showMobileSearchModal && (
+                <div className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm sm:hidden">
+                    <div className="flex flex-col min-h-screen p-4 pt-16 pb-8">
+                        {/* Close Button - Fixed at top */}
+                        <div className="flex justify-end mb-4">
+                            <button
+                                onClick={() => setShowMobileSearchModal(false)}
+                                className="p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                            >
+                                <span className="material-symbols-outlined text-white text-xl">close</span>
+                            </button>
+                        </div>
+
+                        {/* Content Area */}
+                        <div ref={modalContentRef} className="flex-1 flex flex-col justify-center space-y-4 max-w-sm mx-auto w-full">
+                            {/* Where Section */}
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                                {activeSection === 'where' ? (
+                                    // Expanded Where Section
+                                    <div className="p-4 max-h-[60vh] overflow-y-auto">
+                                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Where?</h3>
+                                        
+                                        {/* Search Input */}
+                                        <div className="relative mb-4">
+                                            <span className="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+                                            <input
+                                                className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg border-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white placeholder-gray-500"
+                                                placeholder="Search location"
+                                                type="text"
+                                                value={destination}
+                                                onChange={(e) => handleDestinationChange(e.target.value)}
+                                                autoFocus
+                                            />
+                                        </div>
+
+                                        {/* Search Suggestions */}
+                                        {destination && filteredSuggestions.length > 0 && (
+                                            <div className="mb-4 space-y-2">
+                                                {filteredSuggestions.slice(0, 4).map((suggestion, index) => (
+                                                    <button
+                                                        key={index}
+                                                        className="w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors rounded-lg p-3"
+                                                        onClick={() => {
+                                                            handleSuggestionClick(suggestion)
+                                                        }}
+                                                    >
+                                                        {typeof suggestion === 'string' ? (
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="w-10 h-10 rounded-lg bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                                                    <span className="material-symbols-outlined text-white text-sm">location_on</span>
+                                                                </div>
+                                                                <span className="text-sm text-gray-900 dark:text-white">{suggestion}</span>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="w-10 h-10 rounded-lg bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                                                    <span className="material-symbols-outlined text-white text-sm">location_on</span>
+                                                                </div>
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                                                        {suggestion.name}
+                                                                    </div>
+                                                                    <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                                        {suggestion.location}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Popular Destinations - Only show when not searching */}
+                                        {!destination && (
+                                            <div>
+                                                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Popular destinations</h4>
+                                                <div className="space-y-3">
+                                                    {experiences.slice(0, 4).map((experience, index) => (
+                                                        <button
+                                                            key={index}
+                                                            onClick={() => {
+                                                                setDestination(experience.name)
+                                                                setActiveSection('none')
+                                                            }}
+                                                            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+                                                        >
+                                                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                                                                index % 3 === 0 ? 'bg-amber-600' : 
+                                                                index % 3 === 1 ? 'bg-blue-600' : 'bg-gray-600'
+                                                            }`}>
+                                                                <span className="material-symbols-outlined text-white">location_on</span>
+                                                            </div>
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                                                    {experience.name}
+                                                                </div>
+                                                                <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                                                    {experience.location}
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    // Collapsed Where Button
+                                    <button
+                                        onClick={() => setActiveSection('where')}
+                                        className="w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-lg font-bold text-gray-900 dark:text-white">Where?</span>
+                                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                                                {destination || 'Search location'}
+                                            </span>
+                                        </div>
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Date Section */}
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                                {activeSection === 'date' ? (
+                                    // Expanded Date Section
+                                    <div className="p-4">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Date</h3>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => {
+                                                        // Previous month logic can be added here
+                                                    }}
+                                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                                >
+                                                    <span className="material-symbols-outlined text-gray-600 dark:text-gray-400">chevron_left</span>
+                                                </button>
+                                                <span className="text-sm font-medium text-gray-900 dark:text-white min-w-[80px] text-center">
+                                                    {new Date().toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })}
+                                                </span>
+                                                <button
+                                                    onClick={() => {
+                                                        // Next month logic can be added here
+                                                    }}
+                                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                                >
+                                                    <span className="material-symbols-outlined text-gray-600 dark:text-gray-400">chevron_right</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="grid grid-cols-7 gap-1 mb-2">
+                                            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
+                                                <div key={`day-header-${index}`} className="text-center text-xs font-medium text-gray-500 dark:text-gray-400 py-2">
+                                                    {day}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        
+                                        <div className="grid grid-cols-7 gap-1">
+                                            {generateCalendarDays().map((day, index) => {
+                                                const isCurrentMonth = day.getMonth() === new Date().getMonth()
+                                                const isToday = day.toDateString() === new Date().toDateString()
+                                                const isPast = day < new Date(new Date().setHours(0, 0, 0, 0))
+                                                const isSelected = date === day.toISOString().split('T')[0]
+
+                                                return (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() => {
+                                                            if (!isPast) {
+                                                                const year = day.getFullYear()
+                                                                const month = String(day.getMonth() + 1).padStart(2, '0')
+                                                                const dayNum = String(day.getDate()).padStart(2, '0')
+                                                                const dateString = `${year}-${month}-${dayNum}`
+                                                                handleDateClick(dateString)
+                                                            }
+                                                        }}
+                                                        disabled={isPast}
+                                                        className={`
+                                                            text-sm py-3 rounded-lg transition-colors font-medium
+                                                            ${!isCurrentMonth ? 'text-gray-300 dark:text-gray-600' : ''}
+                                                            ${isToday ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300' : ''}
+                                                            ${isSelected ? 'bg-primary text-white' : ''}
+                                                            ${isPast ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'}
+                                                            ${!isPast && !isSelected && !isToday ? 'text-gray-900 dark:text-white' : ''}
+                                                        `}
+                                                    >
+                                                        {day.getDate()}
+                                                    </button>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    // Collapsed Date Button
+                                    <button
+                                        onClick={() => setActiveSection('date')}
+                                        className="w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-lg font-bold text-gray-900 dark:text-white">Date</span>
+                                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                                                {date ? new Date(date).toLocaleDateString('en-GB') : 'Select date'}
+                                            </span>
+                                        </div>
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Search Button */}
+                            <button
+                                onClick={() => {
+                                    handleSearch()
+                                    setShowMobileSearchModal(false)
+                                }}
+                                className="w-full bg-primary hover:bg-blue-600 text-white font-bold py-4 rounded-2xl transition-colors flex items-center justify-center gap-2 shadow-lg mt-6"
+                            >
+                                <span className="material-symbols-outlined">search</span>
+                                <span>Search</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
