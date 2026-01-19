@@ -10,7 +10,7 @@ export default function AboutHero() {
                 <Image
                     alt="Luxury turquoise caribbean ocean view from a resort balcony"
                     className="w-full h-full object-cover object-center"
-                    src="https://images.unsplash.com/photo-1529316275402-0462fcc4abd6?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    src="/images/about-us-image.jpg"
                     fill
                     priority
                 />

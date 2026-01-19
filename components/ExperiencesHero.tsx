@@ -209,7 +209,7 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                 <div
                     className="flex flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-8 py-20 lg:py-24 overflow-visible"
                     style={{
-                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("/images/experience-hero-image.jpg")`
                     }}
                 >
                     <div className="flex flex-col gap-2 text-center max-w-[800px] px-4">
