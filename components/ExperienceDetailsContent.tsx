@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 interface ExperienceDetailsContentProps {
@@ -456,13 +456,13 @@ export default function ExperienceDetailsContent({ experienceId }: ExperienceDet
                                     { rating: 2, percentage: 1 },
                                     { rating: 1, percentage: 0 }
                                 ].map(({ rating, percentage }) => (
-                                    <>
-                                        <p key={`rating-${rating}`} className="text-[#111418] dark:text-white text-xs sm:text-sm font-medium">{rating}</p>
-                                        <div key={`bar-${rating}`} className="flex h-1.5 sm:h-2 flex-1 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                                    <React.Fragment key={rating}>
+                                        <p className="text-[#111418] dark:text-white text-xs sm:text-sm font-medium">{rating}</p>
+                                        <div className="flex h-1.5 sm:h-2 flex-1 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                                             <div className="rounded-full bg-[#111418] dark:bg-white" style={{ width: `${percentage}%` }}></div>
                                         </div>
-                                        <p key={`percent-${rating}`} className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm text-right">{percentage}%</p>
-                                    </>
+                                        <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm text-right">{percentage}%</p>
+                                    </React.Fragment>
                                 ))}
                             </div>
                         </div>

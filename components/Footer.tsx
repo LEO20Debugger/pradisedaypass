@@ -58,7 +58,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-sm text-gray-400">© 2025 Paradise DayPass. All rights reserved.</p>
+                    <p className="text-sm text-gray-400">© 2026 Paradise DayPass. All rights reserved.</p>
                     <div className="flex gap-4">
                         <a className="text-gray-400 hover:text-primary transition-colors" href="#">
                             <svg aria-hidden="true" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

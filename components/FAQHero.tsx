@@ -14,7 +14,7 @@ export default function FAQHero() {
                     <Image
                         alt="Turks and Caicos pristine beach with turquoise water"
                         className="w-full h-full object-cover object-center"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7tGRD3epHFgFUznR7PDm3IMtOyMWiTaHb4wtMoOpF9MrKpV6sMvmVBPHUDwhvaUjmJfQcKVY4nyIvrvzJMFcBytk0tyZD8KOsGf-vbrtpg7T0P9TjR9orLy3_XmjlI9AdhXDVlil9O5kOnODZtq5mL7UQu8lt5az53tabhgH-jLVY2GKmQSuVaOiGrTzxqbsFlREc8KMUemWpR3KrbljxKrInD3wylhvcm265MJ3SvFpRacSef5_1JF5R0s-ILgBXA5xgY_WCJvEb"
+                        src="/images/faq-image.jpg"
                         fill
                         priority
                     />

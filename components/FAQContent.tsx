@@ -32,6 +32,11 @@ export default function FAQContent() {
                     id: 'general-3',
                     question: 'Do I need to bring my own towels?',
                     answer: 'Most of our partner resorts provide complimentary towel service for Day Pass guests. You can collect these at the main pool concierge or beach station. We recommend checking the "Inclusions" section of specific resort pages just to be sure.'
+                },
+                {
+                    id: 'general-4',
+                    question: 'Can I bring my own food and drinks to the venue?',
+                    answer: 'Generally, most partner venues do not allow external food or beverages, including coolers. However, check your reservation details carefully for any specific food and drink policies. You can also contact the venue by phone or email to confirm.'
                 }
             ]
         },
@@ -47,6 +52,11 @@ export default function FAQContent() {
                     id: 'booking-2',
                     question: 'Can I cancel or reschedule my booking?',
                     answer: 'Yes, we understand plans change. Full refunds are available for cancellations made at least 24 hours prior to your scheduled arrival date. Cancellations made within 24 hours are non-refundable but may be eligible for rescheduling pending resort availability.'
+                },
+                {
+                    id: 'booking-3',
+                    question: 'Why isn\'t the date or type of pass I want available?',
+                    answer: 'If the Daypass you\'re trying to book isn\'t available, it means the venue isn\'t offering it for that specific date or the available slots have been sold out. Availability is managed exclusively by the venues and is updated in real-time on the platform. We recommend checking back periodically or considering similar options nearby. Currently, there is no waitlist service.'
                 }
             ]
         },

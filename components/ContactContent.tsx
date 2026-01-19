@@ -186,7 +186,7 @@ export default function ContactContent() {
                     <Image
                         alt="Serene turquoise infinity pool overlooking the ocean in Turks and Caicos with lounge chairs"
                         className="w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/contact-image.jpg"
                         fill
                     />
                     {/* Gradient Overlay */}
