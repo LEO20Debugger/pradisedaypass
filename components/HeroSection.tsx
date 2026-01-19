@@ -458,7 +458,6 @@ export default function HeroSection() {
                                                         className="w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors rounded-lg p-3"
                                                         onClick={() => {
                                                             handleSuggestionClick(suggestion)
-                                                            setShowSuggestions(false)
                                                         }}
                                                     >
                                                         {typeof suggestion === 'string' ? (
@@ -498,7 +497,7 @@ export default function HeroSection() {
                                                             key={index}
                                                             onClick={() => {
                                                                 setDestination(experience.name)
-                                                                setShowSuggestions(false)
+                                                                setActiveSection('none')
                                                             }}
                                                             className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
                                                         >
