@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { experiences as allExperiences } from '@/lib/experiences'
 
 interface ExperiencesContentProps {
     searchQuery?: string
@@ -64,89 +65,6 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
             return () => document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [showSortDropdown])
-
-    const allExperiences = [
-        {
-            id: 1,
-            name: "The Palms Turks & Caicos",
-            location: "Grace Bay, Providenciales",
-            price: 250,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAuzCjvoygQ4AfY2mZH-vEWMJqB-QjSTKTNvnZUtmHEPtI4XEe49DOJbXY7BiZKchlEV9fefmsU0SxsBTkwdl9K9gexIrOncqWS-LW5n2_w3p6SAZ5kuZwgglt9AAhJ85gqf9uxUoYUd2p2fweK5Vode4LXAQ3Yeec1b3sZCyBdEpImnfZfW_VykUI8D5_Pt668FATuePF7zE4rCbflKCwl96EQmxSr-i6Pr6iyNk6x7Ucqh5Fyl2AY58tLsLMAPuLMFWXPfYCFmAwI",
-            tags: ["Spa Access", "Pool & Beach"],
-            badge: "Best Seller",
-            badgeStyle: "bg-white/90 text-primary"
-        },
-        {
-            id: 2,
-            name: "Wymara Resort & Villas",
-            location: "Grace Bay, Lower Bight",
-            price: 180,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAUupZELwgu8iGZmVUt11HmHGQSBh_foNhyqIDuPc2Nm6tC72ludcQd_SukGcUGt2CO_l0uTnIv4xRv_MOPhxFCmNDVqPMq4ujyL8PUyXpkgVmG6WjnrIMbBCiQ3AWbqtl8snK1bn1yfeP3nFyWD3m4FxaiernnpdyQ-r1njrL-2do0CKVDE3xggVTKki1MDudq8SSJ89aeZbrsT3LSAWq9n6cfRLIGvBYYy5R0XCKOL60NU6KGoWBGx6hZHzD0qZBR9KCFRFJ15tQe",
-            tags: ["Cabana", "Dining Credit"],
-            badge: "Adults Only",
-            badgeStyle: "bg-[#111418]/80 text-white"
-        },
-        {
-            id: 3,
-            name: "Seven Stars Resort",
-            location: "Grace Bay, Providenciales",
-            price: 300,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJrT11p0gc86-RSLkOK04C7dGa4nhd0ZP5gFggOycspWlrON4kuvEJabnZj__HhqY7gdRT-Nx3TtzBlvbVP5BPUKaZsRZeLQhnU8vzQZcblVR3zgkcfIDRLAY2gsGjurydHWKk-Qendn5Zz1IGM4ZApR8dQ0c-n1mVu4UapFB_p14o__F87CYqLVXKOYD3jB9QVlr6UXE1t81_ED436lizDZ-yvPXO1dpH-3BvjENac5fsBsbmLc7xOrip_xy0N7pdXbqD0uvtVYff",
-            tags: ["All-Inclusive", "Water Sports"]
-        },
-        {
-            id: 5,
-            name: "The Shore Club",
-            location: "Long Bay Beach, Providenciales",
-            price: 150,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAPhn2TmOPFNq6ceXNRXtwsfn56TeW2CwMACrNbtEW2Q409M_6ckRefgk0rrLrEz6SU13wePNYYWLQlEafvJh3GHZmabO03eFSDqO6KY7f3O9yLg4zsYNJK7Hty2V_H15X_T4nufb2hTiHXdaXDIVBN1eUUqsXQcAPKPGVdKpl3e9tPipJwpzOVzl--jmAq_0DTxZ5Pn-CW-JVSjFs3MiprvUBCXSFdkYq_O1V-f5pgKtTz2Z45RIxaqBpz1Rvs6HF1mbUir-59Lew6",
-            tags: ["Pool Access", "Towel Service"]
-        },
-        {
-            id: 7,
-            name: "The Ritz-Carlton",
-            location: "Grace Bay, Providenciales",
-            price: 280,
-            image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            tags: ["Luxury Spa", "Fine Dining"]
-        },
-        {
-            id: 8,
-            name: "Beaches Turks & Caicos",
-            location: "Lower Bight, Providenciales",
-            price: 195,
-            image: "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwD2Qt9yT2g4MhZCRigJrw9-ilDK9MB_vFH_kYxkMX7Fj7INPVjzGT4Go_X4aDqoEAV03k1pZqLuSxIeqjehqNwKXnhcnnrergrCHUwPprORzMZMZhEr2bjjt1hQRpdTUgmEQ=s1360-w1360-h1020-rw",
-            tags: ["Water Park", "Kids Club"]
-        },
-        {
-            id: 9,
-            name: "Conch Bar Beach Resort",
-            location: "Conch Bar, Middle Caicos",
-            price: 125,
-            image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-            tags: ["Eco-Tours", "Fishing"]
-        },
-        {
-            id: 10,
-            name: "Club Med",
-            location: "Grace Bay, Providenciales",
-            price: 320,
-            image: "https://lh3.googleusercontent.com/gps-cs-s/AG0ilSyLdhN4D4aHk3PpS_N4vuyAVeVhbMiMD2hwsDk-Q0Ok-ztVMQH4OmcGk6_GyzbeCNiLKWrRgeEyYZjVIbU99VBTmNU3Mgsn0fT-PUATk1t2mXVvFXtxwInkFocSep_1uEJpOR7L=s1360-w1360-h1020-rw",
-            tags: ["All-Inclusive", "Adults Only", "Water Sports"],
-            badge: "Premium",
-            badgeStyle: "bg-luxury-gold text-white"
-        },
-        {
-            id: 11,
-            name: "Alexandra Resort",
-            location: "Grace Bay, Providenciales",
-            price: 220,
-            image: "https://lh3.googleusercontent.com/p/AF1QipNmcg9Metm1vcr8vGtHh5cymrCq02C1_Ffdu0iH=s1360-w1360-h1020-rw",
-            tags: ["All-Inclusive", "Lagoon Pool", "Water Sports"],
-            badge: "Family Friendly",
-            badgeStyle: "bg-green-500 text-white"
-        }
-    ]
 
     // Filter experiences based on search query AND selected filters
     const filteredExperiences = allExperiences.filter(experience => {
@@ -472,8 +390,8 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
                                     <div className="relative h-48 sm:h-56 overflow-hidden">
                                         {experience.badge && (
                                             <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-10">
-                                                <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badgeStyle}`}>
-                                                    {experience.badge}
+                                                <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badge.className}`}>
+                                                    {experience.badge.label}
                                                 </span>
                                             </div>
                                         )}
@@ -537,8 +455,8 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
                                         <div className="relative h-44 overflow-hidden">
                                             {experience.badge && (
                                                 <div className="absolute top-2 left-2 z-10">
-                                                    <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badgeStyle}`}>
-                                                        {experience.badge}
+                                                    <span className={`inline-flex items-center rounded-md backdrop-blur-sm px-2 py-1 text-xs font-bold shadow-sm ${experience.badge.className}`}>
+                                                        {experience.badge.label}
                                                     </span>
                                                 </div>
                                             )}
