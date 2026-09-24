@@ -5,11 +5,11 @@ import Image from 'next/image'
 export default function AboutHero() {
     return (
         <div className="relative w-full h-[600px] flex items-center justify-center bg-cover bg-center bg-no-repeat">
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/50 z-10"></div>
                 <Image
                     alt="Luxury turquoise caribbean ocean view from a resort balcony"
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-center animate-slow-zoom"
                     src="/images/about-us-image.jpg"
                     fill
                     priority
@@ -17,7 +17,7 @@ export default function AboutHero() {
             </div>
 
             <div className="flex flex-col gap-6 text-center max-w-[800px] px-4 z-10">
-                <h1 className="text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
+                <h1 className="animate-fade-up text-white text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                     Born in the Islands,<br />Built for Luxury
                 </h1>
                 <h2 className="text-white/90 text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto drop-shadow-md">

@@ -4,11 +4,169 @@
 @tailwind components;
 @tailwind utilities;
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+html {
+  scroll-behavior: smooth;
+}
+
+/* ------------------------------------------------------------------
+   Glass system
+   .glass         – translucent surface over imagery (search panel, pills)
+   .glass-bar     – sticky header; turns more solid once the page scrolls
+   .glass-strong  – menus, dropdowns and dialogs that sit over content
+   .glass-field   – inputs that live inside a glass surface
+   Depth comes from: blur + saturation of what's behind, a gradient fill
+   (brighter at the top-left like a light source), a 1px inner highlight
+   on the top edge, and a soft layered shadow underneath.
+------------------------------------------------------------------- */
+:root {
+  --glass-fill-from: rgba(255, 255, 255, 0.62);
+  --glass-fill-to: rgba(255, 255, 255, 0.34);
+  --glass-strong-fill: rgba(255, 255, 255, 0.82);
+  --glass-field-fill: rgba(255, 255, 255, 0.72);
+  --glass-field-fill-focus: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-highlight: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 12px 40px -8px rgba(15, 23, 42, 0.22);
+  --glass-blur: 22px;
+  --glass-saturate: 180%;
+}
+
+.dark {
+  --glass-fill-from: rgba(30, 41, 59, 0.62);
+  --glass-fill-to: rgba(15, 23, 42, 0.42);
+  --glass-strong-fill: rgba(16, 25, 34, 0.84);
+  --glass-field-fill: rgba(15, 23, 42, 0.55);
+  --glass-field-fill-focus: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 40px -8px rgba(0, 0, 0, 0.6);
+}
+
+.glass,
+.glass-strong,
+.glass-bar {
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+.glass {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--glass-fill-from), var(--glass-fill-to));
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+}
+
+/* Soft specular sheen across the top of the surface */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(120% 60% at 20% 0%, rgba(255, 255, 255, 0.45), transparent 60%);
+  pointer-events: none;
+}
+
+.dark .glass::before {
+  background: radial-gradient(120% 60% at 20% 0%, rgba(255, 255, 255, 0.08), transparent 60%);
+}
+
+.glass-strong {
+  background: var(--glass-strong-fill);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+}
+
+.glass-bar {
+  background: rgba(252, 251, 249, 0.6);
+  border-bottom: 1px solid rgba(232, 230, 225, 0.6);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-bar[data-scrolled='true'] {
+  background: rgba(252, 251, 249, 0.78);
+  box-shadow: 0 8px 30px -12px rgba(15, 23, 42, 0.18);
+}
+
+.dark .glass-bar {
+  background: rgba(16, 25, 34, 0.6);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass-bar[data-scrolled='true'] {
+  background: rgba(16, 25, 34, 0.82);
+}
+
+.glass-field {
+  background: var(--glass-field-fill);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-field:hover {
+  background: var(--glass-field-fill-focus);
+}
+
+.glass-field:focus-within {
+  background: var(--glass-field-fill-focus);
+  border-color: rgba(19, 127, 236, 0.5);
+  box-shadow: 0 0 0 3px rgba(19, 127, 236, 0.15);
+}
+
+.dark .glass-field {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Browsers without backdrop-filter: fall back to near-solid surfaces so text stays readable */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: rgba(255, 255, 255, 0.92); }
+  .glass-strong { background: rgba(255, 255, 255, 0.97); }
+  .glass-bar { background: rgba(252, 251, 249, 0.96); }
+  .dark .glass { background: rgba(16, 25, 34, 0.92); }
+  .dark .glass-strong,
+  .dark .glass-bar { background: rgba(16, 25, 34, 0.97); }
+}
+
+/* ------------------------------------------------------------------
+   Motion
+------------------------------------------------------------------- */
+
+/* Scroll reveal: only hidden once JS has flagged the page (see layout.tsx), so content is never lost without JS */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js .reveal[data-visible='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid #137fec;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar,

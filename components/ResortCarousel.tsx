@@ -1,3 +1,4 @@
+import Reveal from '@/components/Reveal'
 import Link from 'next/link'
 import ResortCard from '@/components/ResortCard'
 import type { Experience } from '@/lib/experiences'
@@ -14,8 +15,10 @@ export default function ResortCarousel({ experiences, getBadge }: ResortCarousel
             {/* Desktop Horizontal Scroll */}
             <div className="hidden md:block overflow-x-auto scrollbar-hide">
                 <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
-                    {experiences.map((experience) => (
-                        <ResortCard key={experience.id} experience={experience} variant="desktop" badge={getBadge?.(experience)} />
+                    {experiences.map((experience, index) => (
+                        <Reveal key={experience.id} delay={Math.min(index, 4) * 80}>
+                            <ResortCard experience={experience} variant="desktop" badge={getBadge?.(experience)} />
+                        </Reveal>
                     ))}
                 </div>
             </div>
@@ -23,8 +26,10 @@ export default function ResortCarousel({ experiences, getBadge }: ResortCarousel
             {/* Mobile Horizontal Scroll */}
             <div className="md:hidden overflow-x-auto scrollbar-hide">
                 <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
-                    {experiences.map((experience) => (
-                        <ResortCard key={experience.id} experience={experience} variant="mobile" badge={getBadge?.(experience)} />
+                    {experiences.map((experience, index) => (
+                        <Reveal key={experience.id} delay={Math.min(index, 4) * 80}>
+                            <ResortCard experience={experience} variant="mobile" badge={getBadge?.(experience)} />
+                        </Reveal>
                     ))}
                 </div>
             </div>

@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import Reveal from '@/components/Reveal'
 import Image from 'next/image'
 
 export default function LocationsSection() {
@@ -42,7 +44,7 @@ export default function LocationsSection() {
     return (
         <section className="pt-4 pb-20 px-4 bg-background-light dark:bg-background-dark">
             <div className="max-w-[1280px] mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <Reveal className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>
                         <h2 className="text-3xl md:text-4xl font-bold text-[#111418] dark:text-white tracking-tight mb-2">
                             Popular Locations
@@ -51,31 +53,33 @@ export default function LocationsSection() {
                             Discover the premier resort destinations in Turks and Caicos.
                         </p>
                     </div>
-                    <a className="group flex items-center gap-2 text-primary font-bold hover:text-blue-700 transition-colors" href="/experiences">
+                    <Link className="group flex items-center gap-2 text-primary font-bold hover:text-blue-700 transition-colors" href="/experiences">
                         <span>View destination guide</span>
                         <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
-                    </a>
-                </div>
+                    </Link>
+                </Reveal>
 
                 {/* Desktop Horizontal Scroll */}
                 <div className="hidden md:block overflow-x-auto scrollbar-hide">
                     <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
                         {locations.map((location, index) => (
-                            <a key={index} className="group relative h-[320px] w-[280px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 isolate flex-shrink-0" href="/experiences">
-                                <Image
-                                    alt={location.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    src={location.image}
-                                    fill
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                                <div className="absolute bottom-0 left-0 p-6 z-10">
-                                    <h3 className="text-xl font-bold text-white mb-2">{location.name}</h3>
-                                    <p className="text-white/80 text-sm font-medium leading-relaxed">
-                                        {location.description}
-                                    </p>
-                                </div>
-                            </a>
+                            <Reveal key={location.name} delay={Math.min(index, 4) * 80}>
+                                <Link className="group relative h-[320px] w-[280px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 isolate flex-shrink-0 block" href="/experiences">
+                                    <Image
+                                        alt={location.name}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        src={location.image}
+                                        fill
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                    <div className="absolute bottom-0 left-0 p-6 z-10">
+                                        <h3 className="text-xl font-bold text-white mb-2">{location.name}</h3>
+                                        <p className="text-white/80 text-sm font-medium leading-relaxed">
+                                            {location.description}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </Reveal>
                         ))}
                     </div>
                 </div>
@@ -84,21 +88,23 @@ export default function LocationsSection() {
                 <div className="md:hidden overflow-x-auto scrollbar-hide">
                     <div className="flex gap-4 pb-4" style={{ width: 'max-content' }}>
                         {locations.map((location, index) => (
-                            <a key={index} className="group relative h-[280px] w-[240px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 isolate flex-shrink-0" href="/experiences">
-                                <Image
-                                    alt={location.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    src={location.image}
-                                    fill
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                                <div className="absolute bottom-0 left-0 p-4 z-10">
-                                    <h3 className="text-lg font-bold text-white mb-1">{location.name}</h3>
-                                    <p className="text-white/80 text-xs font-medium leading-relaxed">
-                                        {location.description}
-                                    </p>
-                                </div>
-                            </a>
+                            <Reveal key={location.name} delay={Math.min(index, 4) * 80}>
+                                <Link className="group relative h-[280px] w-[240px] rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 isolate flex-shrink-0 block" href="/experiences">
+                                    <Image
+                                        alt={location.name}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        src={location.image}
+                                        fill
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                    <div className="absolute bottom-0 left-0 p-4 z-10">
+                                        <h3 className="text-lg font-bold text-white mb-1">{location.name}</h3>
+                                        <p className="text-white/80 text-xs font-medium leading-relaxed">
+                                            {location.description}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </Reveal>
                         ))}
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import type { Experience } from '@/lib/experiences'
 
 interface ExperienceDetailsContentProps {
@@ -8,6 +9,9 @@ interface ExperienceDetailsContentProps {
     /** Date passed through from the search (?date=YYYY-MM-DD) */
     initialDate?: string
 }
+
+/** Most guests one booking can hold */
+const MAX_GUESTS = 10
 
 export default function ExperienceDetailsContent({ experience, initialDate }: ExperienceDetailsContentProps) {
     const [adults, setAdults] = useState(2)
@@ -278,16 +282,19 @@ export default function ExperienceDetailsContent({ experience, initialDate }: Ex
                                             </div>
                                             <div className="flex items-center gap-2 sm:gap-3">
                                                 <button
-                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 text-[#111418] dark:text-white disabled:opacity-50"
+                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 disabled:cursor-not-allowed text-[#111418] dark:text-white disabled:opacity-50"
                                                     onClick={() => setAdults(Math.max(1, adults - 1))}
                                                     disabled={adults <= 1}
+                                                    aria-label="Remove an adult"
                                                 >
                                                     <span className="material-symbols-outlined text-[14px] sm:text-[16px]">remove</span>
                                                 </button>
-                                                <span className="text-sm font-bold w-4 text-center">{adults}</span>
+                                                <span className="text-sm font-bold w-4 text-center" aria-live="polite">{adults}</span>
                                                 <button
-                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 text-[#111418] dark:text-white"
+                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 disabled:cursor-not-allowed text-[#111418] dark:text-white"
                                                     onClick={() => setAdults(adults + 1)}
+                                                    disabled={adults + children >= MAX_GUESTS}
+                                                    aria-label="Add an adult"
                                                 >
                                                     <span className="material-symbols-outlined text-[14px] sm:text-[16px]">add</span>
                                                 </button>
@@ -300,16 +307,19 @@ export default function ExperienceDetailsContent({ experience, initialDate }: Ex
                                             </div>
                                             <div className="flex items-center gap-2 sm:gap-3">
                                                 <button
-                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 text-[#111418] dark:text-white disabled:opacity-50"
+                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 disabled:cursor-not-allowed text-[#111418] dark:text-white disabled:opacity-50"
                                                     onClick={() => setChildren(Math.max(0, children - 1))}
                                                     disabled={children <= 0}
+                                                    aria-label="Remove a child"
                                                 >
                                                     <span className="material-symbols-outlined text-[14px] sm:text-[16px]">remove</span>
                                                 </button>
-                                                <span className="text-sm font-bold w-4 text-center">{children}</span>
+                                                <span className="text-sm font-bold w-4 text-center" aria-live="polite">{children}</span>
                                                 <button
-                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 text-[#111418] dark:text-white"
+                                                    className="size-6 sm:size-7 rounded-full bg-white dark:bg-gray-700 shadow-sm flex items-center justify-center hover:bg-gray-50 disabled:cursor-not-allowed text-[#111418] dark:text-white"
                                                     onClick={() => setChildren(children + 1)}
+                                                    disabled={adults + children >= MAX_GUESTS}
+                                                    aria-label="Add a child"
                                                 >
                                                     <span className="material-symbols-outlined text-[14px] sm:text-[16px]">add</span>
                                                 </button>
@@ -318,6 +328,12 @@ export default function ExperienceDetailsContent({ experience, initialDate }: Ex
                                     </div>
                                 </div>
                             </div>
+
+                            {adults + children >= MAX_GUESTS && (
+                                <p className="text-xs text-gray-500 dark:text-gray-400 -mt-2 mb-3">
+                                    Up to {MAX_GUESTS} guests per booking. <Link href="/contact" className="text-primary font-semibold hover:underline">Contact us</Link> for larger groups.
+                                </p>
+                            )}
 
                             {/* CTA Button */}
                             <button className="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3 sm:py-3.5 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all transform active:scale-[0.98] mb-3 sm:mb-4 text-sm sm:text-base">

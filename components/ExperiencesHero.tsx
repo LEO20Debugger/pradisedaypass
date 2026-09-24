@@ -24,7 +24,7 @@ export default function ExperiencesHero({ onSearch, initialSearchQuery }: Experi
                         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%), url("/images/experience-hero-image.jpg")`
                     }}
                 >
-                    <div className="flex flex-col gap-2 text-center max-w-[800px] px-4">
+                    <div className="flex flex-col gap-2 text-center max-w-[800px] px-4 animate-fade-up">
                         <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-md">
                             Exclusive Resort Day Passes
                         </h1>

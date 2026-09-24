@@ -22,6 +22,10 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
     const [activeSection, setActiveSection] = useState<'none' | 'where' | 'date'>('none')
     const [showMobileSearchModal, setShowMobileSearchModal] = useState(false)
     const [filteredSuggestions, setFilteredSuggestions] = useState<Suggestion[]>([])
+    const [viewMonth, setViewMonth] = useState(() => {
+        const today = new Date()
+        return new Date(today.getFullYear(), today.getMonth(), 1)
+    })
     const inputRef = useRef<HTMLInputElement>(null)
     const calendarRef = useRef<HTMLDivElement>(null)
     const modalContentRef = useRef<HTMLDivElement>(null)
@@ -87,9 +91,14 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
         setActiveSection('none')
     }
 
+    /** YYYY-MM-DD in local time (toISOString would shift the day in some time zones) */
+    const toDateKey = (day: Date) =>
+        `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`
+
     const formatDateDisplay = (dateString: string) => {
         if (!dateString) return 'Select date'
-        const date = new Date(dateString)
+        const [y, m, d] = dateString.split('-').map(Number)
+        const date = new Date(y, m - 1, d)
         return date.toLocaleDateString('en-US', {
             weekday: 'short',
             month: 'short',
@@ -97,17 +106,21 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
         })
     }
 
+    const currentMonthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+    const canGoBack = viewMonth > currentMonthStart
+
+    const changeMonth = (delta: number) => {
+        setViewMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + delta, 1))
+    }
+
     const generateCalendarDays = () => {
-        const today = new Date()
-        const currentMonth = today.getMonth()
-        const currentYear = today.getFullYear()
-        const firstDay = new Date(currentYear, currentMonth, 1)
+        const firstDay = viewMonth
         const startDate = new Date(firstDay)
         startDate.setDate(startDate.getDate() - firstDay.getDay())
 
         const days = []
         for (let i = 0; i < 42; i++) {
-            const date = new Date(startDate.getTime() + (i * 24 * 60 * 60 * 1000))
+            const date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i)
             days.push(date)
         }
         return days
@@ -168,7 +181,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
 
     return (
         <>
-            <div className="glass-panel p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-glass relative overflow-visible">
+            <div className="glass p-2 sm:p-3 rounded-xl sm:rounded-2xl overflow-visible animate-fade-up [animation-delay:300ms]">
                 {/* Mobile Layout - Simple Search Bar */}
                 <div className="sm:hidden">
                     <button
@@ -176,7 +189,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                             setShowMobileSearchModal(true)
                             setActiveSection('where')
                         }}
-                        className="w-full flex items-center bg-white dark:bg-gray-800 rounded-lg px-4 py-3 border border-transparent hover:border-primary/50 transition-colors text-left"
+                        className="w-full flex items-center glass-field rounded-lg px-4 py-3 text-left"
                     >
                         <span className="material-symbols-outlined text-gray-400 mr-3">search</span>
                         <span className="text-gray-500 dark:text-gray-400 text-sm">Start your search</span>
@@ -186,7 +199,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                 {/* Desktop Layout */}
                 <div className="hidden sm:flex flex-col md:flex-row gap-2">
                     <div className="relative flex-[2]">
-                        <div className="flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors">
+                        <div className="flex items-center glass-field rounded-xl px-4 py-3">
                             <span className="material-symbols-outlined text-gray-400 mr-3">location_on</span>
                             <div className="flex flex-col items-start justify-center w-full min-w-0">
                                 <label className="text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-1">Destination</label>
@@ -205,11 +218,11 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
 
                         {/* Desktop Suggestions Dropdown */}
                         {activeSection === 'where' && filteredSuggestions.length > 0 && (
-                            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-[9999] max-h-80 overflow-y-auto">
+                            <div className="absolute top-full left-0 right-0 mt-1 glass-strong rounded-xl animate-scale-in z-[9999] max-h-80 overflow-y-auto">
                                 {filteredSuggestions.slice(0, 6).map((suggestion, index) => (
                                     <button
                                         key={index}
-                                        className="w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-b-0 first:rounded-t-xl last:rounded-b-xl"
+                                        className="w-full text-left hover:bg-black/[0.04] dark:hover:bg-white/10 transition-colors border-b border-black/5 dark:border-white/10 last:border-b-0 first:rounded-t-xl last:rounded-b-xl"
                                         onMouseDown={(e) => {
                                             e.preventDefault()
                                             handleSuggestionClick(suggestion)
@@ -264,7 +277,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                     <div className="relative flex-1">
                         <button
                             onClick={() => setActiveSection(activeSection === 'date' ? 'none' : 'date')}
-                            className="w-full flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-3 border border-transparent focus-within:border-primary/50 transition-colors text-left"
+                            className="w-full flex items-center glass-field rounded-xl px-4 py-3 text-left"
                         >
                             <span className="material-symbols-outlined text-gray-400 mr-3 flex-shrink-0">calendar_month</span>
                             <div className="flex flex-col items-start w-full">
@@ -277,11 +290,28 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
 
                         {/* Desktop Calendar Popup */}
                         {activeSection === 'date' && (
-                            <div ref={calendarRef} className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-[9999] p-4 min-w-[300px]">
-                                <div className="text-center mb-4">
-                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                                        {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                            <div ref={calendarRef} className="absolute top-full left-0 mt-1 glass-strong rounded-xl animate-scale-in z-[9999] p-4 min-w-[300px]">
+                                <div className="flex items-center justify-between mb-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => changeMonth(-1)}
+                                        disabled={!canGoBack}
+                                        aria-label="Previous month"
+                                        className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                                    >
+                                        <span className="material-symbols-outlined text-gray-600 dark:text-gray-400 text-xl">chevron_left</span>
+                                    </button>
+                                    <h3 className="text-sm font-bold text-gray-900 dark:text-white" aria-live="polite">
+                                        {viewMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                                     </h3>
+                                    <button
+                                        type="button"
+                                        onClick={() => changeMonth(1)}
+                                        aria-label="Next month"
+                                        className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                                    >
+                                        <span className="material-symbols-outlined text-gray-600 dark:text-gray-400 text-xl">chevron_right</span>
+                                    </button>
                                 </div>
                                 <div className="grid grid-cols-7 gap-1 mb-2">
                                     {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
@@ -292,22 +322,18 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                 </div>
                                 <div className="grid grid-cols-7 gap-1">
                                     {generateCalendarDays().map((day, index) => {
-                                        const isCurrentMonth = day.getMonth() === new Date().getMonth()
+                                        const isCurrentMonth = day.getMonth() === viewMonth.getMonth()
                                         const isToday = day.toDateString() === new Date().toDateString()
                                         const isPast = day < new Date(new Date().setHours(0, 0, 0, 0))
-                                        const isSelected = date === day.toISOString().split('T')[0]
+                                        const isSelected = date === toDateKey(day)
 
                                         return (
                                             <button
                                                 key={index}
-                                                onMouseDown={(e) => {
-                                                    e.preventDefault()
+                                                type="button"
+                                                onClick={() => {
                                                     if (!isPast) {
-                                                        const year = day.getFullYear()
-                                                        const month = String(day.getMonth() + 1).padStart(2, '0')
-                                                        const dayNum = String(day.getDate()).padStart(2, '0')
-                                                        const dateString = `${year}-${month}-${dayNum}`
-                                                        handleDateClick(dateString)
+                                                        handleDateClick(toDateKey(day))
                                                     }
                                                 }}
                                                 disabled={isPast}
@@ -316,7 +342,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                                     ${!isCurrentMonth ? 'text-gray-300 dark:text-gray-600' : ''}
                                                     ${isToday ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300' : ''}
                                                     ${isSelected ? 'bg-primary text-white' : ''}
-                                                    ${isPast ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'}
+                                                    ${isPast ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer'}
                                                     ${!isPast && !isSelected && !isToday ? 'text-gray-900 dark:text-white' : ''}
                                                 `}
                                             >
@@ -348,6 +374,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                         <div className="flex justify-end mb-4">
                             <button
                                 onClick={() => setShowMobileSearchModal(false)}
+                                aria-label="Close search"
                                 className="p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
                             >
                                 <span className="material-symbols-outlined text-white text-xl">close</span>
@@ -357,7 +384,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                         {/* Content Area */}
                         <div ref={modalContentRef} className="flex-1 flex flex-col justify-center space-y-4 max-w-sm mx-auto w-full">
                             {/* Where Section */}
-                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                            <div className="glass-strong rounded-2xl overflow-hidden animate-scale-in">
                                 {activeSection === 'where' ? (
                                     // Expanded Where Section
                                     <div className="p-4 max-h-[60vh] overflow-y-auto">
@@ -382,7 +409,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                                 {filteredSuggestions.slice(0, 4).map((suggestion, index) => (
                                                     <button
                                                         key={index}
-                                                        className="w-full text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors rounded-lg p-3"
+                                                        className="w-full text-left hover:bg-black/[0.04] dark:hover:bg-white/10 transition-colors rounded-lg p-3"
                                                         onClick={() => {
                                                             handleSuggestionClick(suggestion)
                                                         }}
@@ -426,7 +453,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                                                 setDestination(experience.name)
                                                                 setActiveSection('none')
                                                             }}
-                                                            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+                                                            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-left"
                                                         >
                                                             <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
                                                                 index % 3 === 0 ? 'bg-amber-600' : 
@@ -452,7 +479,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                     // Collapsed Where Button
                                     <button
                                         onClick={() => setActiveSection('where')}
-                                        className="w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        className="w-full p-4 text-left hover:bg-black/[0.04] dark:hover:bg-white/10 transition-colors"
                                     >
                                         <div className="flex items-center justify-between">
                                             <span className="text-lg font-bold text-gray-900 dark:text-white">Where?</span>
@@ -465,7 +492,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                             </div>
 
                             {/* Date Section */}
-                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                            <div className="glass-strong rounded-2xl overflow-hidden animate-scale-in">
                                 {activeSection === 'date' ? (
                                     // Expanded Date Section
                                     <div className="p-4">
@@ -473,21 +500,22 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Date</h3>
                                             <div className="flex items-center gap-2">
                                                 <button
-                                                    onClick={() => {
-                                                        // Previous month logic can be added here
-                                                    }}
-                                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                                    type="button"
+                                                    onClick={() => changeMonth(-1)}
+                                                    disabled={!canGoBack}
+                                                    aria-label="Previous month"
+                                                    className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors disabled:opacity-30"
                                                 >
                                                     <span className="material-symbols-outlined text-gray-600 dark:text-gray-400">chevron_left</span>
                                                 </button>
                                                 <span className="text-sm font-medium text-gray-900 dark:text-white min-w-[80px] text-center">
-                                                    {new Date().toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })}
+                                                    {viewMonth.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                                                 </span>
                                                 <button
-                                                    onClick={() => {
-                                                        // Next month logic can be added here
-                                                    }}
-                                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                                    type="button"
+                                                    onClick={() => changeMonth(1)}
+                                                    aria-label="Next month"
+                                                    className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors"
                                                 >
                                                     <span className="material-symbols-outlined text-gray-600 dark:text-gray-400">chevron_right</span>
                                                 </button>
@@ -495,7 +523,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                         </div>
                                         
                                         <div className="grid grid-cols-7 gap-1 mb-2">
-                                            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
+                                            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
                                                 <div key={`day-header-${index}`} className="text-center text-xs font-medium text-gray-500 dark:text-gray-400 py-2">
                                                     {day}
                                                 </div>
@@ -504,21 +532,17 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                         
                                         <div className="grid grid-cols-7 gap-1">
                                             {generateCalendarDays().map((day, index) => {
-                                                const isCurrentMonth = day.getMonth() === new Date().getMonth()
+                                                const isCurrentMonth = day.getMonth() === viewMonth.getMonth()
                                                 const isToday = day.toDateString() === new Date().toDateString()
                                                 const isPast = day < new Date(new Date().setHours(0, 0, 0, 0))
-                                                const isSelected = date === day.toISOString().split('T')[0]
+                                                const isSelected = date === toDateKey(day)
 
                                                 return (
                                                     <button
                                                         key={index}
                                                         onClick={() => {
                                                             if (!isPast) {
-                                                                const year = day.getFullYear()
-                                                                const month = String(day.getMonth() + 1).padStart(2, '0')
-                                                                const dayNum = String(day.getDate()).padStart(2, '0')
-                                                                const dateString = `${year}-${month}-${dayNum}`
-                                                                handleDateClick(dateString)
+                                                                handleDateClick(toDateKey(day))
                                                             }
                                                         }}
                                                         disabled={isPast}
@@ -527,7 +551,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                                             ${!isCurrentMonth ? 'text-gray-300 dark:text-gray-600' : ''}
                                                             ${isToday ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300' : ''}
                                                             ${isSelected ? 'bg-primary text-white' : ''}
-                                                            ${isPast ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'}
+                                                            ${isPast ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer'}
                                                             ${!isPast && !isSelected && !isToday ? 'text-gray-900 dark:text-white' : ''}
                                                         `}
                                                     >
@@ -541,7 +565,7 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                                     // Collapsed Date Button
                                     <button
                                         onClick={() => setActiveSection('date')}
-                                        className="w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        className="w-full p-4 text-left hover:bg-black/[0.04] dark:hover:bg-white/10 transition-colors"
                                     >
                                         <div className="flex items-center justify-between">
                                             <span className="text-lg font-bold text-gray-900 dark:text-white">Date</span>

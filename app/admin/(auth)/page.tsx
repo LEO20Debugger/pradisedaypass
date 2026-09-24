@@ -83,14 +83,16 @@ export default function AdminLogin() {
                                     value={formData.password}
                                     onChange={handleInputChange}
                                 />
-                                <div
+                                <button
                                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                    type="button"
+                                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
                                     <span className="material-symbols-outlined text-gray-400 text-[20px] hover:text-[#111418] dark:hover:text-white transition-colors">
                                         {showPassword ? 'visibility_off' : 'visibility'}
                                     </span>
-                                </div>
+                                </button>
                             </div>
                         </div>
 

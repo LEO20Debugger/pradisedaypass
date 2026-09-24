@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { experiences as allExperiences } from '@/lib/experiences'
 
@@ -395,12 +396,14 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
                                                 </span>
                                             </div>
                                         )}
-                                        <img
+                                        <Image
                                             alt={experience.name}
-                                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
                                             src={experience.image}
+                                            fill
+                                            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                                         />
-                                        <button className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 size-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
+                                        <button className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 size-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors" aria-label="Save to favourites">
                                             <span className="material-symbols-outlined text-lg">favorite</span>
                                         </button>
                                     </div>
@@ -460,12 +463,14 @@ export default function ExperiencesContent({ searchQuery: propSearchQuery, onSea
                                                     </span>
                                                 </div>
                                             )}
-                                            <img
+                                            <Image
                                                 alt={experience.name}
-                                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
                                                 src={experience.image}
+                                                fill
+                                                sizes="280px"
                                             />
-                                            <button className="absolute bottom-2 right-2 size-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors">
+                                            <button className="absolute bottom-2 right-2 size-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:text-red-500 hover:bg-white transition-colors" aria-label="Save to favourites">
                                                 <span className="material-symbols-outlined text-base">favorite</span>
                                             </button>
                                         </div>

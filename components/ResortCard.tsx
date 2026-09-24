@@ -11,7 +11,7 @@ interface ResortCardProps {
 
 const styles = {
     desktop: {
-        card: 'rounded-2xl hover:shadow-xl transition-all duration-300 w-[320px]',
+        card: 'rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 w-[320px]',
         image: 'h-48',
         pill: 'px-3',
         pricePos: 'top-4 right-4',

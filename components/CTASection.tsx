@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import Reveal from '@/components/Reveal'
 
 export default function CTASection() {
     return (
@@ -12,7 +14,7 @@ export default function CTASection() {
                         fill
                     />
                 </div>
-                <div className="relative z-10 p-10 md:p-20 max-w-2xl">
+                <Reveal className="relative z-10 p-10 md:p-20 max-w-2xl">
                     <h2 className="text-white text-4xl md:text-5xl font-bold mb-6">
                         Ready for your day in paradise?
                     </h2>
@@ -20,20 +22,20 @@ export default function CTASection() {
                         Join thousands of travelers who are upgrading their vacation with Paradise DayPass.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <a
+                        <Link
                             href="/experiences"
-                            className="bg-gradient-to-r from-primary to-coral-500 hover:from-blue-700 hover:to-coral-600 text-white font-bold px-8 py-4 rounded-full transition-all text-lg text-center shadow-lg"
+                            className="bg-gradient-to-r from-primary to-coral-500 hover:from-blue-700 hover:to-coral-600 text-white font-bold px-8 py-4 rounded-full transition-all text-lg text-center shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                         >
                             Browse Day Passes
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="/how-it-works"
                             className="bg-white/10 hover:bg-coral-500/20 backdrop-blur-sm border border-white/30 hover:border-coral-300/50 text-white font-bold px-8 py-4 rounded-full transition-all text-lg text-center"
                         >
                             How It Works
-                        </a>
+                        </Link>
                     </div>
-                </div>
+                </Reveal>
             </div>
         </section>
     )
