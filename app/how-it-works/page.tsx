@@ -1,32 +1,21 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import HowItWorksHero from '@/components/HowItWorksHero'
-import GuestProcessSection from '@/components/GuestProcessSection'
-import PartnerSection from '@/components/PartnerSection'
+import HowItWorksContent from '@/components/HowItWorksContent'
 import FAQSection from '@/components/FAQSection'
 import FinalCTASection from '@/components/FinalCTASection'
 
-export default function HowItWorksPage() {
-    const searchParams = useSearchParams()
-    const [activeTab, setActiveTab] = useState('guests')
+interface HowItWorksPageProps {
+    searchParams: { tab?: string }
+}
 
-    useEffect(() => {
-        const tab = searchParams.get('tab')
-        if (tab === 'partners') {
-            setActiveTab('partners')
-        }
-    }, [searchParams])
+export default function HowItWorksPage({ searchParams }: HowItWorksPageProps) {
+    const initialTab = searchParams.tab === 'partners' ? 'partners' : 'guests'
 
     return (
         <>
             <Header />
             <main>
-                <HowItWorksHero activeTab={activeTab} setActiveTab={setActiveTab} />
-                {activeTab === 'guests' ? <GuestProcessSection /> : <PartnerSection />}
+                <HowItWorksContent initialTab={initialTab} />
                 <FAQSection />
                 <FinalCTASection />
             </main>

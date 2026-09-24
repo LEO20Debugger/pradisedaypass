@@ -9,11 +9,11 @@ export default function FAQHero() {
     return (
         <div className="w-full">
             <div className="relative flex flex-col items-center justify-center py-20 px-4 sm:px-10 min-h-[400px] bg-cover bg-center bg-no-repeat">
-                <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 z-0 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/50 z-10"></div>
                     <Image
                         alt="Turks and Caicos pristine beach with turquoise water"
-                        className="w-full h-full object-cover object-center"
+                        className="w-full h-full object-cover object-center animate-slow-zoom"
                         src="/images/faq-image.jpg"
                         fill
                         priority
@@ -21,7 +21,7 @@ export default function FAQHero() {
                 </div>
 
                 <div className="flex flex-col gap-4 text-center max-w-3xl z-10">
-                    <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-md">
+                    <h1 className="animate-fade-up text-white text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-[-0.033em] drop-shadow-md">
                         How can we help?
                     </h1>
                     <h2 className="text-white/90 text-base sm:text-lg font-medium leading-relaxed drop-shadow-sm max-w-xl mx-auto">

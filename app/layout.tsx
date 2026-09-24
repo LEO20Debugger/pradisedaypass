@@ -26,7 +26,11 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className="light">
+        <html lang="en" className="light" suppressHydrationWarning>
+            <head>
+                {/* Flag JS before first paint so scroll-reveal content starts hidden without a flash */}
+                <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+            </head>
             <body className="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white font-display overflow-x-hidden antialiased">
                 {children}
             </body>
