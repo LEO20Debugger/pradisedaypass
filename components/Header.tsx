@@ -75,6 +75,11 @@ export default function Header() {
 
     return (
         <>
+            {/* Dim the page behind the open menu (header sits above at z-10000) */}
+            {isMenuOpen && (
+                <div className="fixed inset-0 z-[9999] bg-slate-900/25 animate-fade-in" aria-hidden="true"></div>
+            )}
+
             <header className="sticky top-0 z-[10000] w-full glass-bar" data-scrolled={scrolled}>
                 <div className="layout-container flex justify-center">
                     <div className="w-full max-w-[1280px] px-4 py-3 sm:py-4 flex items-center justify-between">

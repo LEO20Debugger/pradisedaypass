@@ -21,7 +21,7 @@ html {
 :root {
   --glass-fill-from: rgba(255, 255, 255, 0.62);
   --glass-fill-to: rgba(255, 255, 255, 0.34);
-  --glass-strong-fill: rgba(255, 255, 255, 0.82);
+  --glass-strong-fill: rgba(255, 255, 255, 0.9);
   --glass-field-fill: rgba(255, 255, 255, 0.72);
   --glass-field-fill-focus: rgba(255, 255, 255, 0.95);
   --glass-border: rgba(255, 255, 255, 0.55);
@@ -34,7 +34,7 @@ html {
 .dark {
   --glass-fill-from: rgba(30, 41, 59, 0.62);
   --glass-fill-to: rgba(15, 23, 42, 0.42);
-  --glass-strong-fill: rgba(16, 25, 34, 0.84);
+  --glass-strong-fill: rgba(16, 25, 34, 0.9);
   --glass-field-fill: rgba(15, 23, 42, 0.55);
   --glass-field-fill-focus: rgba(15, 23, 42, 0.8);
   --glass-border: rgba(255, 255, 255, 0.12);
@@ -42,33 +42,51 @@ html {
   --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 40px -8px rgba(0, 0, 0, 0.6);
 }
 
-.glass,
+/*
+  Why the blur lives on ::before for .glass and .glass-bar:
+  an element with backdrop-filter becomes the "backdrop root" for everything
+  inside it, so a nested frosted menu/dropdown could only blur its parent,
+  not the page — it ended up see-through. Putting the parent's blur on a
+  pseudo-element keeps the parent itself filter-free, so children
+  (.glass-strong menus, suggestions, calendar) blur the real page behind.
+  -webkit-backdrop-filter uses literal values: some Safari versions ignore
+  var() inside it.
+*/
 .glass-strong,
-.glass-bar {
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+.glass::before,
+.glass-bar::before {
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
 }
 
 .glass {
   position: relative;
   isolation: isolate;
-  background: linear-gradient(135deg, var(--glass-fill-from), var(--glass-fill-to));
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
 }
 
-/* Soft specular sheen across the top of the surface */
-.glass::before {
+/* Frosted fill */
+.glass::before,
+.glass::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: radial-gradient(120% 60% at 20% 0%, rgba(255, 255, 255, 0.45), transparent 60%);
   pointer-events: none;
 }
 
-.dark .glass::before {
+.glass::before {
+  background: linear-gradient(135deg, var(--glass-fill-from), var(--glass-fill-to));
+}
+
+/* Soft specular sheen across the top of the surface */
+.glass::after {
+  background: radial-gradient(120% 60% at 20% 0%, rgba(255, 255, 255, 0.45), transparent 60%);
+}
+
+.dark .glass::after {
   background: radial-gradient(120% 60% at 20% 0%, rgba(255, 255, 255, 0.08), transparent 60%);
 }
 
@@ -79,22 +97,38 @@ html {
 }
 
 .glass-bar {
-  background: rgba(252, 251, 249, 0.6);
+  isolation: isolate;
   border-bottom: 1px solid rgba(232, 230, 225, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
+}
+
+.glass-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(252, 251, 249, 0.6);
+  transition: background-color 0.3s ease;
 }
 
 .glass-bar[data-scrolled='true'] {
-  background: rgba(252, 251, 249, 0.78);
   box-shadow: 0 8px 30px -12px rgba(15, 23, 42, 0.18);
 }
 
+.glass-bar[data-scrolled='true']::before {
+  background: rgba(252, 251, 249, 0.78);
+}
+
 .dark .glass-bar {
-  background: rgba(16, 25, 34, 0.6);
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
-.dark .glass-bar[data-scrolled='true'] {
+.dark .glass-bar::before {
+  background: rgba(16, 25, 34, 0.6);
+}
+
+.dark .glass-bar[data-scrolled='true']::before {
   background: rgba(16, 25, 34, 0.82);
 }
 
@@ -120,12 +154,12 @@ html {
 
 /* Browsers without backdrop-filter: fall back to near-solid surfaces so text stays readable */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass { background: rgba(255, 255, 255, 0.92); }
+  .glass::before { background: rgba(255, 255, 255, 0.92); }
   .glass-strong { background: rgba(255, 255, 255, 0.97); }
-  .glass-bar { background: rgba(252, 251, 249, 0.96); }
-  .dark .glass { background: rgba(16, 25, 34, 0.92); }
+  .glass-bar::before { background: rgba(252, 251, 249, 0.96); }
+  .dark .glass::before { background: rgba(16, 25, 34, 0.92); }
   .dark .glass-strong,
-  .dark .glass-bar { background: rgba(16, 25, 34, 0.97); }
+  .dark .glass-bar::before { background: rgba(16, 25, 34, 0.97); }
 }
 
 /* ------------------------------------------------------------------
