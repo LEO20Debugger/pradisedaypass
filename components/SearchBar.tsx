@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { experiences, type Experience } from '@/lib/experiences'
 
@@ -189,10 +190,18 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                             setShowMobileSearchModal(true)
                             setActiveSection('where')
                         }}
-                        className="w-full flex items-center glass-field rounded-lg px-4 py-3 text-left"
+                        className="w-full flex items-center glass-field rounded-lg px-4 py-2.5 text-left"
+                        aria-label="Search day passes"
                     >
-                        <span className="material-symbols-outlined text-gray-400 mr-3">search</span>
-                        <span className="text-gray-500 dark:text-gray-400 text-sm">Start your search</span>
+                        <span className="material-symbols-outlined text-primary mr-3">search</span>
+                        <span className="flex flex-col min-w-0">
+                            <span className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                                {destination || 'Where to?'}
+                            </span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                {date ? formatDateDisplay(date) : 'Any date'}
+                            </span>
+                        </span>
                     </button>
                 </div>
 
@@ -366,9 +375,9 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
             </div>
 
 
-            {/* Mobile Search Modal */}
-            {showMobileSearchModal && (
-                <div className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm sm:hidden">
+            {/* Mobile Search Modal: portalled to <body> so it can sit above the sticky header (the hero is its own stacking context) */}
+            {showMobileSearchModal && createPortal(
+                <div className="fixed inset-0 z-[10002] bg-black/50 backdrop-blur-sm sm:hidden">
                     <div className="flex flex-col min-h-screen p-4 pt-16 pb-8">
                         {/* Close Button - Fixed at top */}
                         <div className="flex justify-end mb-4">
@@ -590,7 +599,8 @@ export default function SearchBar({ navigation = 'push', initialDestination = ''
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     )
